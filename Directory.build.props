@@ -1,0 +1,42 @@
+<Project>
+  <PropertyGroup>
+    <Copyright>2017 Cql Incorporated</Copyright>  
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageReleaseNotes>https://github.com/cqlcorp/cql.core</PackageReleaseNotes>
+    <PackageProjectUrl>https://github.com/cqlcorp/cql.core</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/cqlcorp/cql.core/License.md</PackageLicenseUrl>
+		<Authors>CQL;Jeremy Bell</Authors>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<NuGetBuildTasksPackTargets>000</NuGetBuildTasksPackTargets>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<RepositoryType>git</RepositoryType>
+		<RepositoryUrl>https://github.com/cqlcorp/cql.core</RepositoryUrl>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<NoWarn>$(NoWarn);1591</NoWarn>
+		<DebugSymbols>true</DebugSymbols>
+		<DebugType>embedded</DebugType>
+		<DefaultLanguage>en-US</DefaultLanguage>
+		<IncludeSymbols>false</IncludeSymbols>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
+		<DefineConstants>$(DefineConstants);NET451</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' OR '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.3.0-preview1-4045" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

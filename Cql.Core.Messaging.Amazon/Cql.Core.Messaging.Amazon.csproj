@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyTitle>Cql.Core.Messaging.Amazon</AssemblyTitle>
+    <AssemblyName>Cql.Core.Messaging.Amazon</AssemblyName>
+    <Description>An implementation of Cql.Messaging using Amazon SES.</Description>
+    <VersionPrefix>2.0.0</VersionPrefix>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net451</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Messaging\Cql.Core.Messaging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.Core" Version="3.3.8.2" />
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.3.1.5" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Owin.Identity</AssemblyName>
+    <AssemblyTitle>Cql.Core.Owin.Identity</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Description>Common Owin-based implementation of Asp.Net Identity providers.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
+    <ProjectReference Include="..\Cql.Core.Owin\Cql.Core.Owin.csproj" />
+    <ProjectReference Include="..\Cql.Core.Owin.IdentityTools\Cql.Core.Owin.IdentityTools.csproj" />
+    <ProjectReference Include="..\Cql.Core.Web\Cql.Core.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.1" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  
+</Project>

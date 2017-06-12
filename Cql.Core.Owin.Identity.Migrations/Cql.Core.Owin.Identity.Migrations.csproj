@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Owin.Identity.Migrations</AssemblyName>
+    <AssemblyTitle>Cql.Core.Owin.IdentityMigrations</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Description>DB migrations for Asp.Net Identity providers.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net451</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Update="StoredProcedures\**\*">
+      <PackagePath>StoredProcedures/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="Migrations\**\*">
+      <PackagePath>Migrations/</PackagePath>
+      <Pack>true</Pack>
+    </None>
+    <None Update="ExtensionsForDbMigrations.cs;SqlFunctions.cs">
+      <Pack>true</Pack>
+    </None>
+    <None Update="*.dll">
+      <Pack>false</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator" Version="[1.1.0.0]" />
+    <PackageReference Include="FluentMigrator.Tools" Version="[1.1.0.0]" />
+    <PackageReference Include="Cql.FluentMigrator.Extensions" Version="0.1.3.2" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>

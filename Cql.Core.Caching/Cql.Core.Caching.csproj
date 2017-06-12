@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Caching</AssemblyName>
+    <AssemblyTitle>Cql.Core.Caching</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Description>An implementation of System.Runtime.Caching.MemoryCache.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net46</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+  
+</Project>

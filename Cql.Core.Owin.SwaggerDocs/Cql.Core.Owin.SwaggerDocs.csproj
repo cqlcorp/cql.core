@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Owin.SwaggerDocs</AssemblyName>
+    <AssemblyTitle>Cql.Core.Owin.SwaggerDocs</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Description>Common Swagger API Documentation implementation.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
+    <ProjectReference Include="..\Cql.Core.ServiceLocation\Cql.Core.ServiceLocation.csproj" />
+    <ProjectReference Include="..\Cql.Core.Web\Cql.Core.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.3" />
+    <PackageReference Include="microsoft.aspnet.webapi.owin" Version="5.2.3" />
+    <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="Swashbuckle.Blue" Version="6.0.0.41" />
+    <PackageReference Include="Swashbuckle.Blue.Core" Version="6.0.0.41" />
+    <PackageReference Include="WebActivatorEx" Version="2.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>

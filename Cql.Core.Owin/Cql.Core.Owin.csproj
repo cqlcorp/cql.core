@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Owin</AssemblyName>
+    <AssemblyTitle>Cql.Core.Owin</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Description>Common Owin-based web features.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net452</TargetFramework>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
+    <ProjectReference Include="..\Cql.Core.ServiceLocation\Cql.Core.ServiceLocation.csproj" />
+    <ProjectReference Include="..\Cql.Core.Web\Cql.Core.Web.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Cors" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Cors" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Extensions.Compression.Server" Version="2.0.6" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin" Version="2.0.4" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Owin" Version="5.2.3" />
+    <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Owin.Cors" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="3.1.0" />
+    <PackageReference Include="System.Runtime" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web" />
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+</Project>
