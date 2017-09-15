@@ -3,7 +3,7 @@
   <PropertyGroup>
     <AssemblyName>Cql.Core.Common</AssemblyName>
     <AssemblyTitle>Cql.Core.Common</AssemblyTitle>
-    <VersionPrefix>2.1.0</VersionPrefix>
+    <VersionPrefix>2.1.1</VersionPrefix>
     <Description>A common library for CQL .Net applications.</Description>
   </PropertyGroup>
   

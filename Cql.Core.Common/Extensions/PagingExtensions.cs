@@ -16,7 +16,6 @@ namespace Cql.Core.Common.Extensions
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Linq.Expressions;
 
     using Cql.Core.Common.Types;
 
@@ -50,6 +49,7 @@ namespace Cql.Core.Common.Extensions
             return list.Skip(Convert.ToInt32((pagingInfo.PageNumber - 1) * pagingInfo.PageSize)).Take(Convert.ToInt32(pagingInfo.PageSize));
         }
 
+#if !NETSTANDARD1_6 
         /// <summary>
         /// Performs a Skip/Take operation on the current list.
         /// </summary>
@@ -62,7 +62,7 @@ namespace Cql.Core.Common.Extensions
         {
             if (list == null)
             {
-                return new List<T>().AsQueryable();
+                return Enumerable.Empty<T>().AsQueryable();
             }
 
             if (pagingInfo == null)
@@ -72,6 +72,7 @@ namespace Cql.Core.Common.Extensions
 
             return list.Skip(Convert.ToInt32((pagingInfo.PageNumber - 1) * pagingInfo.PageSize)).Take(Convert.ToInt32(pagingInfo.PageSize));
         }
+#endif
 
         /// <summary>
         /// Transforms the specified selector.

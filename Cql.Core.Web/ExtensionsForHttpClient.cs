@@ -1,9 +1,29 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.Web
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="ExtensionsForHttpClient.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 namespace Cql.Core.Web
 {
+    using System;
     using System.IO;
     using System.Net.Http;
     using System.Threading.Tasks;
 
+    using JetBrains.Annotations;
+
+    /// <summary>
+    /// Class ExtensionsForHttpClient.
+    /// </summary>
     public static class ExtensionsForHttpClient
     {
         /// <summary>
@@ -18,10 +38,16 @@ namespace Cql.Core.Web
         /// <para></para>
         /// <para>------WebKitFormBoundary7MA4YWxkTrZu0gW--</para>
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
-        public static async Task<string> ToDebugHttpStringAsync(this HttpRequestMessage request)
+        /// <param name="request">The request.</param>
+        /// <returns>A string similar to a HTTP request</returns>
+        /// <exception cref="ArgumentNullException">The <paramref name="request" /> cannot be null</exception>
+        public static async Task<string> ToDebugHttpStringAsync([NotNull] this HttpRequestMessage request)
         {
+            if (request == null)
+            {
+                throw new ArgumentNullException(nameof(request));
+            }
+
             using (var sw = new StringWriter())
             {
                 await sw.WriteAsync("\n");
@@ -37,7 +63,13 @@ namespace Cql.Core.Web
             }
         }
 
-        private static async Task PrintAllHeaders(HttpRequestMessage request, TextWriter sw)
+        /// <summary>
+        /// Prints all headers.
+        /// </summary>
+        /// <param name="request">The request instance.</param>
+        /// <param name="sw">The text writer.</param>
+        /// <returns>A task</returns>
+        private static async Task PrintAllHeaders([NotNull] HttpRequestMessage request, [NotNull] TextWriter sw)
         {
             foreach (var header in request.Headers)
             {
