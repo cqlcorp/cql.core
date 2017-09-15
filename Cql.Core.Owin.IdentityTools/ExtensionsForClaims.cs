@@ -1,15 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-
-using Cql.Core.Common.Extensions;
-
-using Newtonsoft.Json;
-
 namespace Cql.Core.Owin.IdentityTools
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
+
+    using Cql.Core.Common.Extensions;
+
+    using Newtonsoft.Json;
+
     public static class ExtensionsForClaims
     {
         public static bool? GetBoolClaimValue(this IIdentity identity, Enum claimType)
@@ -122,10 +122,10 @@ namespace Cql.Core.Owin.IdentityTools
             return claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value) ?? new string[] { };
         }
 
-        public static IEnumerable<TRolesEnum> GetRoles<TRolesEnum>(this IEnumerable<Claim> claims) where TRolesEnum : struct, IConvertible
+        public static IEnumerable<TRolesEnum> GetRoles<TRolesEnum>(this IEnumerable<Claim> claims)
+            where TRolesEnum : struct, IConvertible
         {
-            return claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value.FromDescription<TRolesEnum>()) ??
-                   new TRolesEnum[] { };
+            return claims?.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value.FromDescription<TRolesEnum>()) ?? new TRolesEnum[] { };
         }
     }
 }

@@ -2,10 +2,14 @@ namespace Cql.Core.Web
 {
     public enum OperationResultType
     {
-        Ok,
-        NotFound,
-        Unauthorized,
-        Invalid,
-        Error
+        Ok = 0,
+
+        NotFound = 1,
+
+        Unauthorized = 2,
+
+        Invalid = 3,
+
+        Error = 4
     }
 }

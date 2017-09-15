@@ -5,18 +5,19 @@ namespace Cql.Core.Common.Types
         public static long DefaultPageSize = 20;
 
         private long _pageNumber;
+
         private long _pageSize;
 
         public PagingInfo()
         {
-            PageNumber = 1;
-            PageSize = DefaultPageSize;
+            this.PageNumber = 1;
+            this.PageSize = DefaultPageSize;
         }
 
         public PagingInfo(long pageNumber, long pageSize)
         {
-            PageNumber = pageNumber;
-            PageSize = pageSize;
+            this.PageNumber = pageNumber;
+            this.PageSize = pageSize;
         }
 
         /// <summary>
@@ -26,13 +27,15 @@ namespace Cql.Core.Common.Types
         {
             get
             {
-                if (_pageNumber < 1)
+                if (this._pageNumber < 1)
                 {
-                    _pageNumber = 1;
+                    this._pageNumber = 1;
                 }
-                return _pageNumber;
+
+                return this._pageNumber;
             }
-            set { _pageNumber = value; }
+
+            set => this._pageNumber = value;
         }
 
         /// <summary>
@@ -42,13 +45,15 @@ namespace Cql.Core.Common.Types
         {
             get
             {
-                if (_pageSize < 1)
+                if (this._pageSize < 1)
                 {
-                    _pageSize = 1;
+                    this._pageSize = 1;
                 }
-                return _pageSize;
+
+                return this._pageSize;
             }
-            set { _pageSize = value; }
+
+            set => this._pageSize = value;
         }
     }
 }

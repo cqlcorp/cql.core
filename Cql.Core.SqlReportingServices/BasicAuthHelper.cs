@@ -1,11 +1,11 @@
-using System;
-using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System;
+    using System.Net;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
+    using System.Text;
+
     internal static class BasicAuthHelper
     {
         public static void SetBasicAuthHeader(NetworkCredential credentials)
@@ -27,7 +27,7 @@ namespace Cql.Core.SqlReportingServices
 
         private static string ToBase64String(NetworkCredential credentials)
         {
-            string formattedString = $"{credentials.UserNameWithDomain()}:{credentials.Password}";
+            var formattedString = $"{credentials.UserNameWithDomain()}:{credentials.Password}";
 
             var encodedBytes = Encoding.UTF8.GetBytes(formattedString);
 

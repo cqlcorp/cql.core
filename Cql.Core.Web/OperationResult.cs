@@ -1,10 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Threading.Tasks;
-
 namespace Cql.Core.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Threading.Tasks;
+
     public class OperationResult : IOperationResult
     {
         public static string DefaultErrorMessage = "An error occured.";
@@ -31,11 +31,7 @@ namespace Cql.Core.Web
                 message = DefaultErrorMessage;
             }
 
-            return new OperationResult
-            {
-                Message = message,
-                Result = OperationResultType.Error
-            };
+            return new OperationResult { Message = message, Result = OperationResultType.Error };
         }
 
         public static OperationResult<T> Error<T>(Exception ex)
@@ -50,39 +46,16 @@ namespace Cql.Core.Web
                 message = DefaultErrorMessage;
             }
 
-            return new OperationResult<T>
-            {
-                Message = message,
-                Result = OperationResultType.Error
-            };
+            return new OperationResult<T> { Message = message, Result = OperationResultType.Error };
         }
 
-        public static OperationResult<T> Invalid<T>(IEnumerable<ValidationResult> validationResults)
+        public static OperationResult<T> FromOperationResult<T>(IOperationResult other, T data = default(T))
         {
-            return new OperationResult<T>
-            {
-                ValidationResults = validationResults ?? new List<ValidationResult>
-                {
-                    new ValidationResult(DefaultValidationMessage)
-                },
-                Result = OperationResultType.Invalid
-            };
-        }
-
-        public static OperationResult Invalid(IEnumerable<ValidationResult> validationResults)
-        {
-            return new OperationResult
-            {
-                ValidationResults = validationResults ?? new List<ValidationResult>
-                {
-                    new ValidationResult(DefaultValidationMessage)
-                },
-                Result = OperationResultType.Invalid
-            };
+            return new OperationResult<T> { Message = other.Message, Result = other.Result, ValidationResults = other.ValidationResults, Data = data };
         }
 
         /// <summary>
-        ///     Returns a NotFound result if they specified <paramref name="value" /> is NULL; otherwise an OK result is returned.
+        /// Returns a NotFound result if they specified <paramref name="value" /> is NULL; otherwise an OK result is returned.
         /// </summary>
         public static OperationResult<T> FromValue<T>(T value)
         {
@@ -90,85 +63,65 @@ namespace Cql.Core.Web
         }
 
         /// <summary>
-        ///     Returns a NotFound result if the result of the specified <paramref name="valueTask" /> is NULL; otherwise an OK
-        ///     result is returned.
+        /// Returns a NotFound result if the result of the specified <paramref name="valueTask" /> is NULL; otherwise an OK
+        /// result is returned.
         /// </summary>
         public static async Task<OperationResult<T>> FromValue<T>(Task<T> valueTask)
         {
             return FromValue(await valueTask);
         }
 
-        public static OperationResult NotFound(string message = null)
+        public static OperationResult<T> Invalid<T>(IEnumerable<ValidationResult> validationResults)
+        {
+            return new OperationResult<T>
+                       {
+                           ValidationResults = validationResults ?? new List<ValidationResult> { new ValidationResult(DefaultValidationMessage) },
+                           Result = OperationResultType.Invalid
+                       };
+        }
+
+        public static OperationResult Invalid(IEnumerable<ValidationResult> validationResults)
         {
             return new OperationResult
-            {
-                Message = message,
-                Result = OperationResultType.NotFound
-            };
+                       {
+                           ValidationResults = validationResults ?? new List<ValidationResult> { new ValidationResult(DefaultValidationMessage) },
+                           Result = OperationResultType.Invalid
+                       };
+        }
+
+        public static OperationResult NotFound(string message = null)
+        {
+            return new OperationResult { Message = message, Result = OperationResultType.NotFound };
         }
 
         public static OperationResult<T> NotFound<T>(string message = null)
         {
-            return new OperationResult<T>
-            {
-                Message = message,
-                Result = OperationResultType.NotFound
-            };
+            return new OperationResult<T> { Message = message, Result = OperationResultType.NotFound };
         }
 
         public static OperationResult Ok(object data = null)
         {
-            return new OperationResult
-            {
-                Data = data,
-                Result = OperationResultType.Ok
-            };
+            return new OperationResult { Data = data, Result = OperationResultType.Ok };
         }
 
         public static OperationResult<T> Ok<T>()
         {
-            return new OperationResult<T>
-            {
-                Result = OperationResultType.Ok
-            };
+            return new OperationResult<T> { Result = OperationResultType.Ok };
         }
 
         public static OperationResult<T> Ok<T>(T data)
         {
-            return new OperationResult<T>
-            {
-                Data = data,
-                Result = OperationResultType.Ok
-            };
+            return new OperationResult<T> { Data = data, Result = OperationResultType.Ok };
         }
 
         public static OperationResult Unauthorized(string message = null)
         {
-            return new OperationResult
-            {
-                Message = message,
-                Result = OperationResultType.Unauthorized
-            };
+            return new OperationResult { Message = message, Result = OperationResultType.Unauthorized };
         }
 
         public static OperationResult<T> Unauthorized<T>(string message = null)
         {
-            return new OperationResult<T>
-            {
-                Message = message,
-                Result = OperationResultType.Unauthorized
-            };
-        }
-
-        public static OperationResult<T> FromOperationResult<T>(IOperationResult other, T data = default(T))
-        {
-            return new OperationResult<T>
-            {
-                Message = other.Message,
-                Result = other.Result,
-                ValidationResults = other.ValidationResults,
-                Data = data
-            };
+            return new OperationResult<T> { Message = message, Result = OperationResultType.Unauthorized };
         }
     }
 
@@ -176,8 +129,8 @@ namespace Cql.Core.Web
     {
         public new T Data
         {
-            get { return (T)base.Data; }
-            set { base.Data = value; }
+            get => (T)base.Data;
+            set => base.Data = value;
         }
     }
 }

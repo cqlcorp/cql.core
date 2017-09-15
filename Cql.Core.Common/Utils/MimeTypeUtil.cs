@@ -1,43 +1,42 @@
-using System;
-using System.IO;
-using Cql.Core.Common.Extensions;
-
+// ***********************************************************************
+// Assembly         : Cql.Core.Common
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="MimeTypeUtil.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 namespace Cql.Core.Common.Utils
 {
+    using System;
+    using System.IO;
+
+    using Cql.Core.Common.Extensions;
+
+    using JetBrains.Annotations;
+
+    /// <summary>
+    /// Class MimeTypeUtil.
+    /// </summary>
     public static class MimeTypeUtil
     {
+        /// <summary>
+        /// The default content type
+        /// </summary>
         public const string DefaultContentType = "application/octet-stream";
 
-        public static string GetFileExtension(string contentType)
-        {
-            switch (contentType)
-            {
-                case "image/jpeg":
-                    return ".jpg";
-                case "image/gif":
-                    return ".gif";
-                case "image/png":
-                    return ".png";
-                case "application/pdf":
-                    return ".pdf";
-                case "application/msword":
-                    return ".doc";
-                case "application/vnd.ms-powerpoint":
-                    return ".ppt";
-                case "application/vnd.ms-excel":
-                    return ".xls";
-                case "video/mp4":
-                    return ".mp4";
-                case "text/csv":
-                    return ".csv";
-                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
-                    return ".docx";
-                default:
-                    return "";
-            }
-        }
-
-        public static string GetContentType(string fileName)
+        /// <summary>
+        /// Gets the type of the content.
+        /// </summary>
+        /// <param name="fileName">Name of the file.</param>
+        /// <returns>The content type value such as &quot;image/jpeg&quot;.</returns>
+        [NotNull]
+        public static string GetContentType([CanBeNull] string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -122,8 +121,56 @@ namespace Cql.Core.Common.Utils
             }
         }
 
-        public static bool IsImage(string contentType)
+        /// <summary>
+        /// Gets the file extension for the specified <paramref name="contentType"/>.
+        /// </summary>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns>The file extension for the specified content type if known, or an empty string</returns>
+        [NotNull]
+        public static string GetFileExtension([CanBeNull] string contentType)
         {
+            switch (contentType)
+            {
+                case "image/jpeg":
+                    return ".jpg";
+                case "image/gif":
+                    return ".gif";
+                case "image/png":
+                    return ".png";
+                case "application/pdf":
+                    return ".pdf";
+                case "application/msword":
+                    return ".doc";
+                case "application/vnd.ms-powerpoint":
+                    return ".ppt";
+                case "application/vnd.ms-excel":
+                    return ".xls";
+                case "video/mp4":
+                    return ".mp4";
+                case "text/csv":
+                    return ".csv";
+                case "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+                    return "xlsx";
+                case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                    return ".docx";
+                default:
+                    return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Determines whether the specified content type is an image content type.
+        /// </summary>
+        /// <param name="contentType">Type of the content.</param>
+        /// <returns><c>true</c> if the specified content type contains "image"; otherwise, <c>false</c>.</returns>
+        /// <exception cref="ArgumentNullException">The contentType cannot be null</exception>
+        public static bool IsImage([NotNull] string contentType)
+        {
+            if (contentType == null)
+            {
+                throw new ArgumentNullException(nameof(contentType));
+            }
+
             return contentType.Contains("image", StringComparison.OrdinalIgnoreCase);
         }
     }

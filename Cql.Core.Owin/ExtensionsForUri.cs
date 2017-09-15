@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Net;
-
-using Cql.Core.Web;
-
 namespace Cql.Core.Owin
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Net;
+
+    using Cql.Core.Web;
+
     public static class ExtensionsForUri
     {
         /// <summary>
@@ -78,20 +78,12 @@ namespace Cql.Core.Owin
 
         public static string ToQueryString(this NameValueCollection nvc)
         {
-            return string.Join(
-                "&",
-                from key in nvc.AllKeys
-                from value in nvc.GetValues(key)
-                select $"{WebUtility.UrlEncode(key)}={WebUtility.UrlEncode(value)}");
+            return string.Join("&", from key in nvc.AllKeys from value in nvc.GetValues(key) select $"{WebUtility.UrlEncode(key)}={WebUtility.UrlEncode(value)}");
         }
 
         public static string ToUncPath(this Uri uri)
         {
-            var builder = new UriBuilder(uri)
-            {
-                Scheme = Uri.UriSchemeFile,
-                Port = -1
-            };
+            var builder = new UriBuilder(uri) { Scheme = Uri.UriSchemeFile, Port = -1 };
 
             return builder.Uri.LocalPath;
         }

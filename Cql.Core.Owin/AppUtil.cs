@@ -1,12 +1,12 @@
-using System;
-using System.IO;
-
 namespace Cql.Core.Owin
 {
+    using System;
+    using System.IO;
+
     public static class AppUtil
     {
         /// <summary>
-        /// Returns the DataDirectory path for the <see cref="AppDomain"/>.
+        /// Returns the DataDirectory path for the <see cref="AppDomain" />.
         /// </summary>
         /// <returns></returns>
         public static string GetAppDataPath()

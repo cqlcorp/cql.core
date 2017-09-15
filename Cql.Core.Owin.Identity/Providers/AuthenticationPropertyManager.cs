@@ -1,13 +1,13 @@
-using System.Collections.Generic;
-using System.Security.Principal;
-
-using Cql.Core.Owin.Identity.Types;
-using Cql.Core.Owin.IdentityTools;
-
-using Microsoft.Owin.Security;
-
 namespace Cql.Core.Owin.Identity.Providers
 {
+    using System.Collections.Generic;
+    using System.Security.Principal;
+
+    using Cql.Core.Owin.Identity.Types;
+    using Cql.Core.Owin.IdentityTools;
+
+    using Microsoft.Owin.Security;
+
     internal static class AuthenticationPropertyManager
     {
         /// <summary>
@@ -24,13 +24,8 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var displayName = claimsIdentity.GetClaimValue(DefaultClaimTypes.DisplayName);
 
-            IDictionary<string, string> data = new Dictionary<string, string>
-            {
-                ["userName"] = user.UserName,
-                ["displayName"] = displayName ?? user.Email,
-                ["roles"] = roles,
-                [".client_id"] = clientId
-            };
+            IDictionary<string, string> data =
+                new Dictionary<string, string> { ["userName"] = user.UserName, ["displayName"] = displayName ?? user.Email, ["roles"] = roles, [".client_id"] = clientId };
 
             return new AuthenticationProperties(data);
         }

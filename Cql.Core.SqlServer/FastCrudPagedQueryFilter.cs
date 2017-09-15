@@ -1,7 +1,7 @@
-using System;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+
     /// <summary>
     /// Executes a Dapper.FastCrud style paged query
     /// <para>
@@ -11,28 +11,33 @@ namespace Cql.Core.SqlServer
     public class FastCrudPagedQueryFilter
     {
         private long _currentPage;
+
         private long _pageSize;
 
         public FastCrudPagedQueryFilter()
         {
-            CurrentPage = 1;
-            PageSize = 1;
-            OrderByClause = $"1";
+            this.CurrentPage = 1;
+            this.PageSize = 1;
+            this.OrderByClause = $"1";
+        }
+
+        public long CurrentPage
+        {
+            get
+            {
+                if (this._currentPage < 1)
+                {
+                    this._currentPage = 1;
+                }
+
+                return this._currentPage;
+            }
+
+            set => this._currentPage = value;
         }
 
         /// <summary>
-        /// The WHERE clause (Use $"" to make a <see cref="FormattableString"/>)
-        /// /// <para>
-        /// EXAMPLE: $"{nameof(Customer.Name):C} LIKE @CustomerName"
-        /// </para>
-        /// <para>
-        /// Visit https://github.com/MoonStorm/Dapper.FastCRUD/wiki/SQL-statements-and-clauses for more information.
-        /// </para>
-        /// </summary>
-        public FormattableString WhereClause { get; set; }
-
-        /// <summary>
-        /// The ORDER BY clause (Use $"" to make a <see cref="FormattableString"/>)
+        /// The ORDER BY clause (Use $"" to make a <see cref="FormattableString" />)
         /// <para>
         /// EXAMPLE: $"{nameof(Customer.ID):C}"
         /// </para>
@@ -42,42 +47,43 @@ namespace Cql.Core.SqlServer
         /// </summary>
         public FormattableString OrderByClause { get; set; }
 
-        public long CurrentPage
-        {
-            get
-            {
-                if (_currentPage < 1)
-                {
-                    _currentPage = 1;
-                }
-                return _currentPage;
-            }
-            set { _currentPage = value; }
-        }
-
         public long PageSize
         {
             get
             {
-                if (_pageSize < 1)
+                if (this._pageSize < 1)
                 {
-                    _pageSize = 1;
+                    this._pageSize = 1;
                 }
-                return _pageSize;
+
+                return this._pageSize;
             }
-            set { _pageSize = value; }
+
+            set => this._pageSize = value;
         }
 
         public object Parameters { get; set; }
 
+        /// <summary>
+        /// The WHERE clause (Use $"" to make a <see cref="FormattableString" />)
+        /// ///
+        /// <para>
+        /// EXAMPLE: $"{nameof(Customer.Name):C} LIKE @CustomerName"
+        /// </para>
+        /// <para>
+        /// Visit https://github.com/MoonStorm/Dapper.FastCRUD/wiki/SQL-statements-and-clauses for more information.
+        /// </para>
+        /// </summary>
+        public FormattableString WhereClause { get; set; }
+
         public long GetSkip()
         {
-            return (CurrentPage - 1) * PageSize;
+            return (this.CurrentPage - 1) * this.PageSize;
         }
 
         public long GetTake()
         {
-            return PageSize;
+            return this.PageSize;
         }
     }
 }

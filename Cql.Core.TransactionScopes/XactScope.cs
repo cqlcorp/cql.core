@@ -1,9 +1,9 @@
-using System;
-using System.Threading.Tasks;
-using System.Transactions;
-
 namespace Cql.Core.TransactionScopes
 {
+    using System;
+    using System.Threading.Tasks;
+    using System.Transactions;
+
     public static class XactScope
     {
         public static async Task ExecuteAsync(Func<Task> taskToRunInsideTransactionScope, TimeSpan? transactionScopeTimeout = default(TimeSpan?))
@@ -28,14 +28,14 @@ namespace Cql.Core.TransactionScopes
             }
         }
 
-        private static TransactionScope CreateAsyncTransactionScope(TimeSpan? transactionScopeTimeout = default (TimeSpan?))
+        private static TransactionScope CreateAsyncTransactionScope(TimeSpan? transactionScopeTimeout = default(TimeSpan?))
         {
             const TransactionScopeOption transactionScopeOption = TransactionScopeOption.Required;
             const TransactionScopeAsyncFlowOption scopeAsyncFlowOption = TransactionScopeAsyncFlowOption.Enabled;
 
-            return transactionScopeTimeout.HasValue ?
-                new TransactionScope(transactionScopeOption, transactionScopeTimeout.Value, scopeAsyncFlowOption) :
-                new TransactionScope(transactionScopeOption, scopeAsyncFlowOption);
+            return transactionScopeTimeout.HasValue
+                       ? new TransactionScope(transactionScopeOption, transactionScopeTimeout.Value, scopeAsyncFlowOption)
+                       : new TransactionScope(transactionScopeOption, scopeAsyncFlowOption);
         }
     }
 }

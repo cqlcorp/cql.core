@@ -1,29 +1,26 @@
-using System.Threading;
-
-using Cql.Core.ReportingServices.ReportServer;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System.Threading;
+
+    using Cql.Core.ReportingServices.ReportServer;
+
     internal class ReportServerExecutionContext : IReportServerExecutionContext
     {
         private TrustedUserHeader _trustedUserHeader;
 
         public ReportServerExecutionContext(ReportingService2010SoapClient client)
         {
-            Client = client;
+            this.Client = client;
         }
+
+        public ReportingService2010SoapClient Client { get; }
 
         public TrustedUserHeader TrustedUserHeader
         {
             get
             {
-                return LazyInitializer.EnsureInitialized(ref _trustedUserHeader, () => new TrustedUserHeader
-                {
-                    UserName = Client.ClientCredentials?.UserName.UserName
-                });
+                return LazyInitializer.EnsureInitialized(ref this._trustedUserHeader, () => new TrustedUserHeader { UserName = this.Client.ClientCredentials?.UserName.UserName });
             }
         }
-
-        public ReportingService2010SoapClient Client { get; }
     }
 }

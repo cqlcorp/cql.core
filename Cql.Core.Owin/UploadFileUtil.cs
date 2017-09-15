@@ -1,10 +1,10 @@
-using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-
 namespace Cql.Core.Owin
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Net.Http;
+
     public static class UploadFileUtil
     {
         public static string GetTempFilepath(MultipartFileStreamProvider provider)
@@ -30,12 +30,12 @@ namespace Cql.Core.Owin
 
             foreach (var c in Path.GetInvalidPathChars())
             {
-                fileName = fileName.Replace(c.ToString(), "");
+                fileName = fileName.Replace(c.ToString(), string.Empty);
             }
 
             foreach (var c in Path.GetInvalidFileNameChars())
             {
-                fileName = fileName.Replace(c.ToString(), "");
+                fileName = fileName.Replace(c.ToString(), string.Empty);
             }
 
             return fileName;

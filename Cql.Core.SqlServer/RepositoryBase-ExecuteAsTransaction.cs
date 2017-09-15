@@ -1,13 +1,13 @@
 #if !XACT
 
-using System;
-using System.Data;
-using System.Data.Common;
-using System.Runtime.ExceptionServices;
-using System.Threading.Tasks;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Data;
+    using System.Data.Common;
+    using System.Runtime.ExceptionServices;
+    using System.Threading.Tasks;
+
     public abstract partial class RepositoryBase
     {
         /// <summary>
@@ -22,11 +22,10 @@ namespace Cql.Core.SqlServer
         /// <param name="isolationLevel"></param>
         /// <returns></returns>
         protected virtual async Task<TQueryResult> ExecuteAsTransaction<TQueryResult>(
-            Func<DbConnection, DbTransaction,
-            Task<TQueryResult>> executeFunc,
+            Func<DbConnection, DbTransaction, Task<TQueryResult>> executeFunc,
             IsolationLevel? isolationLevel = null)
         {
-            using (var db = CreateConnection())
+            using (var db = this.CreateConnection())
             {
                 if (db.State != ConnectionState.Open)
                 {

@@ -13,7 +13,6 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
-    <ProjectReference Include="..\Cql.Core.Owin\Cql.Core.Owin.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +24,10 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NuGet.Build.Tasks.Pack" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

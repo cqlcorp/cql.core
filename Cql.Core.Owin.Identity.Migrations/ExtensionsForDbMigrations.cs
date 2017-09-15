@@ -1,9 +1,9 @@
-using FluentMigrator;
-using FluentMigrator.Builders.Alter.Table;
-using FluentMigrator.Builders.Create.Table;
-
 namespace Cql.Core.Owin.Identity.Migrations
 {
+    using global::FluentMigrator;
+    using global::FluentMigrator.Builders.Alter.Table;
+    using global::FluentMigrator.Builders.Create.Table;
+
     public static class ExtensionsForDbMigrations
     {
         /// <summary>
@@ -49,16 +49,13 @@ namespace Cql.Core.Owin.Identity.Migrations
 
         public static ICreateTableWithColumnSyntax WithChangeTrackingColumns(this ICreateTableWithColumnSyntax syntax)
         {
-            return syntax
-                .WithModifiedColumns()
-                .WithCreatedColumns();
+            return syntax.WithModifiedColumns().WithCreatedColumns();
         }
 
         public static ICreateTableWithColumnSyntax WithCreatedColumns(this ICreateTableWithColumnSyntax syntax)
         {
-            return syntax
-                .WithColumn("CreatedDate").AsDateTimeOffset().NotNullable().WithDefaultValue(SqlFunctions.SysDateTimeOffset)
-                .WithColumn("CreatedBy").AsInt32().NotNullable();
+            return syntax.WithColumn("CreatedDate").AsDateTimeOffset().NotNullable().WithDefaultValue(SqlFunctions.SysDateTimeOffset).WithColumn("CreatedBy").AsInt32()
+                .NotNullable();
         }
 
         public static ICreateTableColumnOptionOrWithColumnSyntax WithIndexedGuidColumn(this ICreateTableWithColumnSyntax syntax, string name = "Guid")
@@ -68,9 +65,8 @@ namespace Cql.Core.Owin.Identity.Migrations
 
         public static ICreateTableWithColumnSyntax WithModifiedColumns(this ICreateTableWithColumnSyntax syntax)
         {
-            return syntax
-                .WithColumn("LastModifiedDate").AsDateTimeOffset().Nullable().WithDefaultValue(SqlFunctions.SysDateTimeOffset)
-                .WithColumn("LastModifiedBy").AsInt32().Nullable();
+            return syntax.WithColumn("LastModifiedDate").AsDateTimeOffset().Nullable().WithDefaultValue(SqlFunctions.SysDateTimeOffset).WithColumn("LastModifiedBy").AsInt32()
+                .Nullable();
         }
 
         public static ICreateTableColumnOptionOrWithColumnSyntax WithNonNullableAnsiStringColumn(this ICreateTableWithColumnSyntax syntax, string name, int size = 255)

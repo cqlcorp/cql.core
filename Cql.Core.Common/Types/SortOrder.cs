@@ -1,8 +1,9 @@
-using System.ComponentModel;
-using Cql.Core.Common.Attributes;
-
 namespace Cql.Core.Common.Types
 {
+    using System.ComponentModel;
+
+    using Cql.Core.Common.Attributes;
+
     public enum SortOrder
     {
         [Description("Ascending")]
@@ -11,6 +12,6 @@ namespace Cql.Core.Common.Types
 
         [Description("Descending")]
         [DataValue("DESC")]
-        Desc
+        Desc = 1
     }
 }

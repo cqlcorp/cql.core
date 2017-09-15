@@ -1,26 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Threading;
-using System.Threading.Tasks;
-
-using FastMember;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.SqlClient;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using FastMember;
+
     public abstract partial class RepositoryBase
     {
         protected Task ExecuteBulkInsertAsync<T>(IEnumerable<T> values)
         {
-            return ExecuteBulkInsertAsync(new BulkcopyOperation<T>
-            {
-                Records = values
-            });
+            return this.ExecuteBulkInsertAsync(new BulkcopyOperation<T> { Records = values });
         }
 
         protected async Task ExecuteBulkInsertAsync<T>(BulkcopyOperation<T> bulkcopyOperation)
         {
-            using (var sqlBulkCopy = new SqlBulkCopy(ConnectionString, bulkcopyOperation.SqlBulkCopyOptions.GetValueOrDefault(SqlBulkCopyOptions.Default)))
+            using (var sqlBulkCopy = new SqlBulkCopy(this.ConnectionString, bulkcopyOperation.SqlBulkCopyOptions.GetValueOrDefault(SqlBulkCopyOptions.Default)))
             {
                 sqlBulkCopy.DestinationTableName = bulkcopyOperation.DestinationTableName;
 

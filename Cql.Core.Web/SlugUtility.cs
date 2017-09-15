@@ -1,8 +1,8 @@
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace Cql.Core.Web
 {
+    using System.Text;
+    using System.Text.RegularExpressions;
+
     public static class SlugUtility
     {
         private static readonly Regex InvalidChars = new Regex(@"[^a-z0-9\s-]", RegexOptions.Compiled);
@@ -12,7 +12,7 @@ namespace Cql.Core.Web
             var str = phrase.RemoveAccent().ToLower();
 
             // invalid chars
-            str = InvalidChars.Replace(str, "");
+            str = InvalidChars.Replace(str, string.Empty);
 
             // convert multiple spaces into one space
             str = Regex.Replace(str, @"\s+", " ").Trim();

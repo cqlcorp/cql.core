@@ -13,6 +13,6 @@ namespace Cql.Core.Web
         /// <summary>
         /// Content is sent as a "Download/Save As" attachment to the browser.
         /// </summary>
-        Attachment
+        Attachment = 1
     }
 }

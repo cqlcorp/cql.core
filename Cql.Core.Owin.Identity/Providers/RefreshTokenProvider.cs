@@ -1,16 +1,16 @@
-using System;
-using System.Threading.Tasks;
-
-using Cql.Core.Owin.Identity.Repositories;
-using Cql.Core.Owin.Identity.Types;
-using Cql.Core.Owin.IdentityTools;
-using Cql.Core.ServiceLocation;
-
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.Infrastructure;
-
 namespace Cql.Core.Owin.Identity.Providers
 {
+    using System;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Owin.Identity.Repositories;
+    using Cql.Core.Owin.Identity.Types;
+    using Cql.Core.Owin.IdentityTools;
+    using Cql.Core.ServiceLocation;
+
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.Infrastructure;
+
     public class RefreshTokenProvider : AuthenticationTokenProvider
     {
         public override async Task CreateAsync(AuthenticationTokenCreateContext context)
@@ -48,7 +48,7 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var allowedOrigin = owinContext.Get<string>(OwinKeys.ClientAllowedOrigin) ?? "*";
 
-            owinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] {allowedOrigin});
+            owinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var hashedTokenId = IdentityUtil.ComputeHash(context.Token);
 
@@ -64,21 +64,16 @@ namespace Cql.Core.Owin.Identity.Providers
             }
         }
 
-        private static IIdentityStore GetIdentityStore()
-        {
-            return ServiceResolver.Resolve<IIdentityStore>();
-        }
-
         private static RefreshToken CreateRefreshToken(AuthenticationTicket ticket, string refreshTokenId, string clientId, double expiresInMinutes)
         {
             var token = new RefreshToken
-            {
-                Id = IdentityUtil.ComputeHash(refreshTokenId),
-                ClientId = clientId,
-                Subject = ticket.Identity.Name,
-                IssuedUtc = DateTime.UtcNow,
-                ExpiresUtc = DateTime.UtcNow.AddMinutes(expiresInMinutes)
-            };
+                            {
+                                Id = IdentityUtil.ComputeHash(refreshTokenId),
+                                ClientId = clientId,
+                                Subject = ticket.Identity.Name,
+                                IssuedUtc = DateTime.UtcNow,
+                                ExpiresUtc = DateTime.UtcNow.AddMinutes(expiresInMinutes)
+                            };
 
             var props = ticket.Properties;
 
@@ -86,6 +81,11 @@ namespace Cql.Core.Owin.Identity.Providers
             props.ExpiresUtc = token.ExpiresUtc;
 
             return token;
+        }
+
+        private static IIdentityStore GetIdentityStore()
+        {
+            return ServiceResolver.Resolve<IIdentityStore>();
         }
     }
 }

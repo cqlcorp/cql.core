@@ -1,16 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Cql.Core.Common.Types;
-
-using Dapper;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Common.Types;
+
+    using Dapper;
+
     public static class ExtensionsForStoredProcs
     {
         public static Task<int> SpExecNonQueryAsync(
@@ -30,7 +30,8 @@ namespace Cql.Core.SqlServer
             DynamicParameters args,
             IDbTransaction transaction = null,
             TimeSpan? commandTimeout = null,
-            CancellationToken cancellationToken = default(CancellationToken)) where T : ISearchResult
+            CancellationToken cancellationToken = default(CancellationToken))
+            where T : ISearchResult
         {
             var searchResults = await db.QueryAsync<T>(CreateCommandArgs(storedProcName, args, transaction, commandTimeout, cancellationToken));
 
@@ -38,11 +39,7 @@ namespace Cql.Core.SqlServer
 
             var totalRecords = results.GetTotalRecords();
 
-            return new PagedResult<T>(args.GetPagingInfo())
-            {
-                Results = results,
-                TotalRecords = totalRecords
-            };
+            return new PagedResult<T>(args.GetPagingInfo()) { Results = results, TotalRecords = totalRecords };
         }
 
         public static Task<IEnumerable<T>> SpExecQueryAsync<T>(
@@ -78,12 +75,7 @@ namespace Cql.Core.SqlServer
             return db.ExecuteScalarAsync<T>(CreateCommandArgs(storedProcName, args, transaction, commandTimeout, cancellationToken));
         }
 
-        public static Task<T> SpExecSingleAsync<T>(
-            this IDbConnection db,
-            string storedProcName,
-            object args = null,
-            IDbTransaction transaction = null,
-            int? commandTimeout = null)
+        public static Task<T> SpExecSingleAsync<T>(this IDbConnection db, string storedProcName, object args = null, IDbTransaction transaction = null, int? commandTimeout = null)
         {
             return db.QuerySingleAsync<T>(storedProcName, args, commandType: CommandType.StoredProcedure, transaction: transaction, commandTimeout: commandTimeout);
         }

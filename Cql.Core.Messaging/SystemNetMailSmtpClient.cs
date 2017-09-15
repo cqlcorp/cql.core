@@ -1,39 +1,39 @@
-#if NET451
-using System.Net.Mail;
-using System.Threading.Tasks;
-
+#if NET451 || CORE20
 namespace Cql.Core.Messaging
 {
+    using System.Net.Mail;
+    using System.Threading.Tasks;
+
     public class SystemNetMailSmtpClient
     {
         private readonly SmtpConfig _smtpConfig;
 
         public SystemNetMailSmtpClient(SmtpConfig smtpConfig)
         {
-            _smtpConfig = smtpConfig;
+            this._smtpConfig = smtpConfig;
         }
 
         public Task SendMessage(IMessage message)
         {
             var mailMessage = EmailMessage.CreateFromMessage(message);
 
-            var client = CreateClient();
+            var client = this.CreateClient();
 
             return client.SendMailAsync(mailMessage);
         }
 
         private SmtpClient CreateClient()
         {
-            var client = new SmtpClient(_smtpConfig.Host, _smtpConfig.Port);
+            var client = new SmtpClient(this._smtpConfig.Host, this._smtpConfig.Port);
 
-            if (_smtpConfig.Credentials != null)
+            if (this._smtpConfig.Credentials != null)
             {
-                client.Credentials = _smtpConfig.Credentials;
+                client.Credentials = this._smtpConfig.Credentials;
             }
 
-            if (_smtpConfig.EnableSsl.HasValue)
+            if (this._smtpConfig.EnableSsl.HasValue)
             {
-                client.EnableSsl = _smtpConfig.EnableSsl.Value;
+                client.EnableSsl = this._smtpConfig.EnableSsl.Value;
             }
 
             return client;

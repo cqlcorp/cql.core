@@ -1,11 +1,11 @@
-using System;
-
-using Cql.Core.Common.Extensions;
-
-using Microsoft.Owin;
-
 namespace Cql.Core.Owin.WebPack
 {
+    using System;
+
+    using Cql.Core.Common.Extensions;
+
+    using Microsoft.Owin;
+
     public static class ProxyServerUtil
     {
         /// <summary>

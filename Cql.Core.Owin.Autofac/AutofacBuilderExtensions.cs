@@ -1,25 +1,17 @@
-using System.Reflection;
-
-using Autofac;
-using Autofac.Extras.CommonServiceLocator;
-
-using Microsoft.Owin;
-using Microsoft.Practices.ServiceLocation;
-
-using Owin;
-
 namespace Cql.Core.Owin.Autofac
 {
+    using System.Reflection;
+
+    using global::Autofac;
+    using global::Autofac.Extras.CommonServiceLocator;
+
+    using global::Owin;
+
+    using Microsoft.Owin;
+    using Microsoft.Practices.ServiceLocation;
+
     public static class AutofacBuilderExtensions
     {
-        public static void RegisterControllers(this ContainerBuilder builder, Assembly webAssembly)
-        {
-            builder
-                .RegisterAssemblyTypes(webAssembly)
-                .Where(x => x.Name.EndsWith("Controller"))
-                .AsSelf();
-        }
-
         public static IContainer BuildContainer(this ContainerBuilder builder, IAppBuilder app)
         {
             var container = builder.Build();
@@ -32,17 +24,22 @@ namespace Cql.Core.Owin.Autofac
             return container;
         }
 
+        public static void RegisterControllers(this ContainerBuilder builder, Assembly webAssembly)
+        {
+            builder.RegisterAssemblyTypes(webAssembly).Where(x => x.Name.EndsWith("Controller")).AsSelf();
+        }
+
         public static void RegisterOwinContextAccessor(this ContainerBuilder builder)
         {
-            builder.RegisterType<OwinContextAccessor>()
-                .OnActivating(e => {
-                    IOwinContext context;
-                    if (e.Context.TryResolve(out context))
+            builder.RegisterType<OwinContextAccessor>().OnActivating(
+                e =>
                     {
-                        e.Instance.OwinContext = context;
-                    }
-                })
-                .As<IOwinContextAccessor>();
+                        IOwinContext context;
+                        if (e.Context.TryResolve(out context))
+                        {
+                            e.Instance.OwinContext = context;
+                        }
+                    }).As<IOwinContextAccessor>();
         }
     }
 }

@@ -1,9 +1,9 @@
-using System;
-using System.Runtime.Caching;
-using System.Threading;
-
 namespace Cql.Core.Caching
 {
+    using System;
+    using System.Runtime.Caching;
+    using System.Threading;
+
     public static class Cache
     {
         public static TimeSpan DefaultTimeToLive = TimeSpan.FromHours(1);

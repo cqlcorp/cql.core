@@ -1,12 +1,12 @@
-using System;
-using System.Collections.Concurrent;
-using System.Data;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Collections.Concurrent;
+    using System.Data;
+    using System.Data.SqlClient;
+    using System.Threading.Tasks;
+    using System.Xml.Serialization;
+
     public static class ExtensionsForXmlQueries
     {
         private static readonly ConcurrentDictionary<Type, XmlSerializer> SerializerCache = new ConcurrentDictionary<Type, XmlSerializer>();

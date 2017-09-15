@@ -1,9 +1,9 @@
-using System;
-using System.Net;
-using System.Net.Http;
-
 namespace Cql.Core.Web
 {
+    using System;
+    using System.Net;
+    using System.Net.Http;
+
     public static class HttpClientFactory
     {
         /// <summary>
@@ -21,10 +21,7 @@ namespace Cql.Core.Web
         /// <returns></returns>
         public static HttpClient CreateHttpClient(Action<HttpClient> setDefaultsHandler)
         {
-            var handler = new HttpClientHandler
-            {
-                AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip
-            };
+            var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
 
             var client = new HttpClient(handler);
 

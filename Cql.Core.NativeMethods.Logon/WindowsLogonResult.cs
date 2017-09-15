@@ -1,11 +1,11 @@
-using System;
-using System.Runtime.ExceptionServices;
-using System.Security.Principal;
-
-using Microsoft.Win32.SafeHandles;
-
-namespace Cql.NativeMethods.Logon
+namespace Cql.Core.NativeMethods.Logon
 {
+    using System;
+    using System.Runtime.ExceptionServices;
+    using System.Security.Principal;
+
+    using Microsoft.Win32.SafeHandles;
+
     public class WindowsLogonResult
     {
         public ExceptionDispatchInfo Exception { get; set; }
@@ -18,32 +18,22 @@ namespace Cql.NativeMethods.Logon
 
         public static WindowsLogonResult Error(Exception ex)
         {
-            return new WindowsLogonResult
-            {
-                Success = false,
-                Token = SafeAccessTokenHandle.InvalidHandle,
-                Exception = ExceptionDispatchInfo.Capture(ex),
-                Message = ex.Message
-            };
+            return new WindowsLogonResult { Success = false, Token = SafeAccessTokenHandle.InvalidHandle, Exception = ExceptionDispatchInfo.Capture(ex), Message = ex.Message };
         }
 
         public static WindowsLogonResult Invalid()
         {
-            return new WindowsLogonResult
-            {
-                Token = SafeAccessTokenHandle.InvalidHandle,
-                Message = "Invalid login"
-            };
+            return new WindowsLogonResult { Token = SafeAccessTokenHandle.InvalidHandle, Message = "Invalid login" };
         }
 
         public WindowsIdentity GetIdentity()
         {
-            return Token.IsInvalid ? WindowsIdentity.GetAnonymous() : new WindowsIdentity(Token.DangerousGetHandle());
+            return this.Token.IsInvalid ? WindowsIdentity.GetAnonymous() : new WindowsIdentity(this.Token.DangerousGetHandle());
         }
 
         public void ThrowException()
         {
-            Exception?.Throw();
+            this.Exception?.Throw();
         }
     }
 }

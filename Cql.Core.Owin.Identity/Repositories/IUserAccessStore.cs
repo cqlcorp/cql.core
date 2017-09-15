@@ -1,10 +1,10 @@
-using System.Security.Principal;
-using System.Threading.Tasks;
-
-using Microsoft.AspNet.Identity;
-
 namespace Cql.Core.Owin.Identity.Repositories
 {
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+
+    using Microsoft.AspNet.Identity;
+
     public interface IUserAccessStore
     {
         Task<IdentityResult> GrantAccess(IPrincipal currentUser, int userId);

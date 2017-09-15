@@ -10,7 +10,6 @@
 
 	<PropertyGroup>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-		<NuGetBuildTasksPackTargets>000</NuGetBuildTasksPackTargets>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -22,10 +21,7 @@
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 		<NoWarn>$(NoWarn);1591</NoWarn>
-		<DebugSymbols>true</DebugSymbols>
-		<DebugType>embedded</DebugType>
 		<DefaultLanguage>en-US</DefaultLanguage>
-		<IncludeSymbols>false</IncludeSymbols>
 	</PropertyGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net451' ">
@@ -35,8 +31,12 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.4' OR '$(TargetFramework)' == 'netstandard1.6' OR '$(TargetFramework)' == 'netstandard2.0'">
     <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
   </PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+		<DefineConstants>$(DefineConstants);CORE20</DefineConstants>
+	</PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.3.0-preview1-4045" PrivateAssets="All" />
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.3.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>

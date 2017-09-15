@@ -1,10 +1,10 @@
 // ReSharper disable CheckNamespace
 
-using System;
-using System.Reflection;
-
 namespace Cql.Core.ReportingServices.ReportExecution
 {
+    using System;
+    using System.Reflection;
+
     public static class TypeExtensions
     {
         public static string GetEnumValue(this Enum value)

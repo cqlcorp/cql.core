@@ -1,8 +1,8 @@
-using System;
-using System.ServiceModel.Channels;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System;
+    using System.ServiceModel.Channels;
+
     public class ReportServerConfig : IReportServerConfig
     {
         public ReportServerConfig(string endPointAddress, Binding binding = null)
@@ -12,12 +12,12 @@ namespace Cql.Core.SqlReportingServices
 
         public ReportServerConfig(Uri endPointAddress, Binding binding = null)
         {
-            EndPointAddress = endPointAddress;
-            Binding = binding;
+            this.EndPointAddress = endPointAddress;
+            this.Binding = binding;
         }
 
-        public Uri EndPointAddress { get; set; }
-
         public Binding Binding { get; set; }
+
+        public Uri EndPointAddress { get; set; }
     }
 }

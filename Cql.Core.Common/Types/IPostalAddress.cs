@@ -8,10 +8,10 @@ namespace Cql.Core.Common.Types
 
         string City { get; set; }
 
+        string Country { get; set; }
+
         string State { get; set; }
 
         string Zip { get; set; }
-
-        string Country { get; set; }
     }
 }

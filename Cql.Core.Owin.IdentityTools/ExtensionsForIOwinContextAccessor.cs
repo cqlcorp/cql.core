@@ -1,12 +1,12 @@
-using System;
-using System.Security.Principal;
-
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin;
-using Microsoft.Owin.Security;
-
 namespace Cql.Core.Owin.IdentityTools
 {
+    using System;
+    using System.Security.Principal;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.Owin;
+    using Microsoft.Owin.Security;
+
     public static class ExtensionsForIOwinContextAccessor
     {
         public static IAuthenticationManager GetAuthenticationManager(this IOwinContextAccessor owinContextAccessor)

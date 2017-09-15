@@ -1,24 +1,27 @@
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-using Microsoft.AspNet.Identity;
-
 namespace Cql.Core.Owin.Identity.Types
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+
+    using Microsoft.AspNet.Identity;
+
     [Table("AspNetRoles", Schema = "dbo")]
     public class IdentityRole : IRole<int>
     {
-        public IdentityRole() {}
-
-        public IdentityRole(string name) : this()
+        public IdentityRole()
         {
-            Name = name;
+        }
+
+        public IdentityRole(string name)
+            : this()
+        {
+            this.Name = name;
         }
 
         public IdentityRole(string name, int id)
         {
-            Name = name;
-            Id = id;
+            this.Name = name;
+            this.Id = id;
         }
 
         /// <summary>

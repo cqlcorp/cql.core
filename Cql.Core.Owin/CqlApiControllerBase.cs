@@ -1,25 +1,24 @@
-using System;
-using System.Diagnostics.Contracts;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Http;
-using System.Web.Http.Results;
-
-using Cql.Core.ServiceLocation;
-using Cql.Core.Web;
-
-using JetBrains.Annotations;
-
-using Microsoft.Owin;
-
-using Newtonsoft.Json.Linq;
-
 namespace Cql.Core.Owin
 {
+    using System;
+    using System.Diagnostics.Contracts;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Security.Claims;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using System.Web.Http;
+
+    using Cql.Core.ServiceLocation;
+    using Cql.Core.Web;
+
+    using JetBrains.Annotations;
+
+    using Microsoft.Owin;
+
+    using Newtonsoft.Json.Linq;
+
     public abstract class CqlApiControllerBase : ApiController
     {
         private IOwinContext _owinContext;
@@ -34,12 +33,12 @@ namespace Cql.Core.Owin
         /// Gets the current <see cref="IOwinContext" /> for the current request.
         /// </summary>
         [NotNull]
-        protected IOwinContext OwinContext => Request == null
-            ? new OwinContext()
-            : LazyInitializer.EnsureInitialized(ref _owinContext, () => Request.GetOwinContext() ?? new OwinContext());
+        protected IOwinContext OwinContext => this.Request == null
+                                                  ? new OwinContext()
+                                                  : LazyInitializer.EnsureInitialized(ref this._owinContext, () => this.Request.GetOwinContext() ?? new OwinContext());
 
         /// <summary>
-        /// Generates an <see cref="IOperationResult"/> for the specified <paramref name="ex"/>.
+        /// Generates an <see cref="IOperationResult" /> for the specified <paramref name="ex" />.
         /// </summary>
         [NotNull]
         protected virtual IOperationResult CreateErrorResult([NotNull] Exception ex)
@@ -66,19 +65,19 @@ namespace Cql.Core.Owin
         /// <param name="service"></param>
         /// <returns></returns>
         [NotNull]
-        protected virtual async Task<IOperationResult> ExcuteServiceTask<TService, TResult>(
-            [NotNull] Func<TService, Task<TResult>> serviceTask,
-            [NotNull] TService service)
+        protected virtual async Task<IOperationResult> ExcuteServiceTask<TService, TResult>([NotNull] Func<TService, Task<TResult>> serviceTask, [NotNull] TService service)
             where TResult : IOperationResult
         {
             if (serviceTask == null)
             {
                 throw new ArgumentNullException(nameof(serviceTask));
             }
+
             if (service == null)
             {
                 throw new ArgumentNullException(nameof(service));
             }
+
             Contract.EndContractBlock();
 
             var operationResult = await serviceTask(service);
@@ -99,7 +98,19 @@ namespace Cql.Core.Owin
         protected abstract void LogException(Exception ex, [CanBeNull] IOperationResult result = null);
 
         /// <summary>
-        /// Produces an <see cref="IHttpActionResult"/> based on the <see cref="OperationResultType"/> of the <see cref="IOperationResult"/>.
+        /// Called after the service task has been completed and the response has been determined, but before the response has
+        /// actually executed.
+        /// </summary>
+        /// <param name="httpResult">The HttpResponse created as a result of the operation.</param>
+        /// <param name="result">The result data created by the operation.</param>
+        protected virtual Task OnServiceTaskExecuted(IHttpActionResult httpResult, IOperationResult result)
+        {
+            return Task.FromResult(true);
+        }
+
+        /// <summary>
+        /// Produces an <see cref="IHttpActionResult" /> based on the <see cref="OperationResultType" /> of the
+        /// <see cref="IOperationResult" />.
         /// </summary>
         [NotNull]
         protected virtual IHttpActionResult OperationResponse([NotNull] IOperationResult result)
@@ -114,34 +125,34 @@ namespace Cql.Core.Owin
                     {
                         if (fileContent.NotFound)
                         {
-                            return NotFound();
+                            return this.NotFound();
                         }
 
                         return new FileContentResult(fileContent);
                     }
 
-                    return Ok(result.Data ?? new MessageResult("ok"));
+                    return this.Ok(result.Data ?? new MessageResult("ok"));
 
                 case OperationResultType.NotFound:
                     if (!string.IsNullOrEmpty(result.Message))
                     {
-                        return Content(HttpStatusCode.NotFound, result.Message);
+                        return this.Content(HttpStatusCode.NotFound, result.Message);
                     }
 
-                    return NotFound();
+                    return this.NotFound();
 
                 case OperationResultType.Unauthorized:
 
                     if (!string.IsNullOrEmpty(result.Message))
                     {
-                        return Content(HttpStatusCode.Unauthorized, result.Message);
+                        return this.Content(HttpStatusCode.Unauthorized, result.Message);
                     }
 
-                    return Unauthorized();
+                    return this.Unauthorized();
 
                 case OperationResultType.Invalid:
 
-                    if (Request.IsAjaxRequest())
+                    if (this.Request.IsAjaxRequest())
                     {
                         var jsonResult = new JObject();
 
@@ -152,32 +163,27 @@ namespace Cql.Core.Owin
 
                         if (result.ValidationResults != null)
                         {
-                            jsonResult["errors"] = new JArray(result.ValidationResults.Select(x => new JObject
-                            {
-                                ["fields"] = new JArray(x.MemberNames),
-                                ["message"] = x.ErrorMessage
-                            }));
+                            jsonResult["errors"] = new JArray(
+                                result.ValidationResults.Select(x => new JObject { ["fields"] = new JArray(x.MemberNames), ["message"] = x.ErrorMessage }));
                         }
 
-                        return Content(HttpStatusCode.BadRequest, jsonResult);
+                        return this.Content(HttpStatusCode.BadRequest, jsonResult);
                     }
                     else
                     {
                         if (!string.IsNullOrEmpty(result.Message))
                         {
-                            return Content(HttpStatusCode.BadRequest, result.Message);
+                            return this.Content(HttpStatusCode.BadRequest, result.Message);
                         }
 
-                        return BadRequest();
+                        return this.BadRequest();
                     }
 
                 case OperationResultType.Error:
-                    return Content(HttpStatusCode.BadRequest, result.Message);
+                    return this.Content(HttpStatusCode.BadRequest, result.Message);
 
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(result.Result),
-                        result.Result,
-                        "Result type not supported.");
+                    throw new ArgumentOutOfRangeException(nameof(result.Result), result.Result, "Result type not supported.");
             }
         }
 
@@ -203,10 +209,9 @@ namespace Cql.Core.Owin
         /// <typeparam name="TService">The type of service being invoked.</typeparam>
         /// <paramref name="serviceTask">The specific service task to be executed: svc => svc.DeleteCustomer(5)</paramref>
         /// <returns>An Operation result indicating whether or not the operation succeeded, typically OperationResult.Ok()</returns>
-        protected virtual Task<IHttpActionResult> ServiceTask<TService>(
-            Func<TService, Task<OperationResult>> serviceTask)
+        protected virtual Task<IHttpActionResult> ServiceTask<TService>(Func<TService, Task<OperationResult>> serviceTask)
         {
-            return ServiceTaskImpl(serviceTask);
+            return this.ServiceTaskImpl(serviceTask);
         }
 
         /// <summary>
@@ -215,22 +220,13 @@ namespace Cql.Core.Owin
         /// <typeparam name="TService">The type of service being invoked.</typeparam>
         /// <typeparam name="TResult">The type of result generated by the service.</typeparam>
         /// <paramref name="serviceTask">The specific service task to be executed: svc => svc.GetCustomer(5)</paramref>
-        /// <returns>An Operation result indicating whether or not the operation succeeded along with the data from the response, typically something like OperationResult.Ok(customer)</returns>
-        protected virtual Task<IHttpActionResult> ServiceTask<TService, TResult>(
-            Func<TService, Task<OperationResult<TResult>>> serviceTask)
+        /// <returns>
+        /// An Operation result indicating whether or not the operation succeeded along with the data from the response,
+        /// typically something like OperationResult.Ok(customer)
+        /// </returns>
+        protected virtual Task<IHttpActionResult> ServiceTask<TService, TResult>(Func<TService, Task<OperationResult<TResult>>> serviceTask)
         {
-            return ServiceTaskImpl(serviceTask);
-        }
-
-        /// <summary>
-        /// Called after the service task has been completed and the response has been determined, but before the response has
-        /// actually executed.
-        /// </summary>
-        /// <param name="httpResult">The HttpResponse created as a result of the operation.</param>
-        /// <param name="result">The result data created by the operation.</param>
-        protected virtual Task OnServiceTaskExecuted(IHttpActionResult httpResult, IOperationResult result)
-        {
-            return Task.FromResult(true);
+            return this.ServiceTaskImpl(serviceTask);
         }
 
         private async Task<IHttpActionResult> ServiceTaskImpl<TService, T>(Func<TService, Task<T>> serviceTask)
@@ -240,13 +236,13 @@ namespace Cql.Core.Owin
 
             try
             {
-                var service = ResolveService<TService>();
+                var service = this.ResolveService<TService>();
 
-                result = await ExcuteServiceTask(serviceTask, service);
+                result = await this.ExcuteServiceTask(serviceTask, service);
 
-                var httpResult = OperationResponse(result);
+                var httpResult = this.OperationResponse(result);
 
-                await OnServiceTaskExecuted(httpResult, result);
+                await this.OnServiceTaskExecuted(httpResult, result);
 
                 return httpResult;
             }
@@ -254,16 +250,16 @@ namespace Cql.Core.Owin
             {
                 try
                 {
-                    LogException(ex, result);
+                    this.LogException(ex, result);
                 }
                 catch
                 {
                     // ignored
                 }
 
-                var errorResult = CreateErrorResult(ex);
+                var errorResult = this.CreateErrorResult(ex);
 
-                return OperationResponse(errorResult);
+                return this.OperationResponse(errorResult);
             }
         }
     }

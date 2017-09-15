@@ -1,11 +1,11 @@
 // ReSharper disable CheckNamespace
 
-using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
-using System.ServiceModel.Channels;
-
 namespace Cql.Core.ReportingServices.ReportExecution
 {
+    using System.Diagnostics.CodeAnalysis;
+    using System.Runtime.Serialization;
+    using System.ServiceModel.Channels;
+
     /// <summary>
     /// Functionality added to the Microsoft Sql Server Reporting Services
     /// service reference to force the ExecutionHeader class to correctly
@@ -34,14 +34,8 @@ namespace Cql.Core.ReportingServices.ReportExecution
         [DataMember(Order = 0, Name = "ExecutionID")]
         public string ExecutionIDForWcfSoapHeader
         {
-            get
-            {
-                return this.executionIDField;
-            }
-            set
-            {
-                this.executionIDField = value;
-            }
+            get => this.executionIDField;
+            set => this.executionIDField = value;
         }
 
         /// <summary>

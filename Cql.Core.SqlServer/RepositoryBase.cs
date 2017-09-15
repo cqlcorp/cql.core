@@ -1,79 +1,81 @@
-using System;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-
 #if PROFILER
 using StackExchange.Profiling.Data;
+
 #endif
 
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Data.Common;
+    using System.Data.SqlClient;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Threading.Tasks;
+
+    using MiniProfiler.Integrations;
+
     [SuppressMessage("ReSharper", "RedundantVerbatimPrefix")]
     [SuppressMessage("ReSharper", "RedundantAnonymousTypePropertyName")]
     public abstract partial class RepositoryBase : IDbConnectionCreator
     {
-        private readonly DatabaseConnection _connection;
-#if PROFILER
-        private readonly MiniProfiler.Integrations.CustomDbProfiler _profiler;
-#endif
         protected EventHandler<CommandsExecutedEventArgs> OnCommandsExecuted;
+
         protected EventHandler<ExecuteErrorEventArgs> OnExecuteError;
 
+        private readonly DatabaseConnection _connection;
+#if PROFILER
+        private readonly CustomDbProfiler _profiler;
+#endif
 
         protected RepositoryBase(DatabaseConnection connection)
         {
-            _connection = connection;
+            this._connection = connection;
 #if PROFILER
-         _profiler = new MiniProfiler.Integrations.CustomDbProfiler();
+            this._profiler = new CustomDbProfiler();
 #endif
         }
 
-        protected string ConnectionString => _connection.ConnectionString;
+        protected string ConnectionString => this._connection.ConnectionString;
 
         DbConnection IDbConnectionCreator.CreateDbConnection()
         {
-            return CreateConnection();
+            return this.CreateConnection();
         }
 
         void IDbConnectionCreator.RaiseCommandsExecutedEvent()
         {
-            RaiseCommandsExecuted();
+            this.RaiseCommandsExecuted();
         }
 
         void IDbConnectionCreator.RaiseExecuteErrorEvent(Exception ex)
         {
-            RaiseExecuteError(ex);
+            this.RaiseExecuteError(ex);
         }
 
         protected virtual DbConnection CreateConnection()
         {
-            return CreateConnection(ConnectionString);
+            return this.CreateConnection(this.ConnectionString);
         }
 
         protected virtual DbConnection CreateConnection(string connectionString)
         {
 #if PROFILER
-            return new ProfiledDbConnection(new SqlConnection(connectionString), _profiler);
+            return new ProfiledDbConnection(new SqlConnection(connectionString), this._profiler);
 #else
             return new SqlConnection(connectionString);
 #endif
         }
 
-        protected virtual TQueryResult Execute<TQueryResult>(
-            Func<DbConnection, TQueryResult> executeFunc)
+        protected virtual TQueryResult Execute<TQueryResult>(Func<DbConnection, TQueryResult> executeFunc)
         {
-            using (var db = CreateConnection())
+            using (var db = this.CreateConnection())
             {
                 return executeFunc(db);
             }
         }
 
-        protected virtual async Task<TQueryResult> Execute<TQueryResult>(
-            Func<DbConnection, Task<TQueryResult>> executeFunc)
+        protected virtual async Task<TQueryResult> Execute<TQueryResult>(Func<DbConnection, Task<TQueryResult>> executeFunc)
         {
-            using (var db = CreateConnection())
+            using (var db = this.CreateConnection())
             {
                 return await executeFunc(db).ConfigureAwait(false);
             }
@@ -82,7 +84,7 @@ namespace Cql.Core.SqlServer
         private void RaiseCommandsExecuted()
         {
 #if PROFILER
-            OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs(_profiler));
+            this.OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs(this._profiler));
 #else
             OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs());
 #endif
@@ -90,7 +92,7 @@ namespace Cql.Core.SqlServer
 
         private void RaiseExecuteError(Exception ex)
         {
-            OnExecuteError?.Invoke(this, new ExecuteErrorEventArgs(ex));
+            this.OnExecuteError?.Invoke(this, new ExecuteErrorEventArgs(ex));
         }
     }
 }

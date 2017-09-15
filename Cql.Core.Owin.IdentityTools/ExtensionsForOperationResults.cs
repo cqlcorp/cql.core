@@ -1,11 +1,11 @@
-﻿using System.Linq;
-
-using Cql.Core.Web;
-
-using Microsoft.AspNet.Identity;
-
-namespace Cql.Core.Owin.IdentityTools
+﻿namespace Cql.Core.Owin.IdentityTools
 {
+    using System.Linq;
+
+    using Cql.Core.Web;
+
+    using Microsoft.AspNet.Identity;
+
     public static class ExtensionsForOperationResults
     {
         public static OperationResult AsOperationResult(this IdentityResult result)

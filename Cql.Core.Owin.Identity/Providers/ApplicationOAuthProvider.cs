@@ -1,29 +1,36 @@
-using System;
-using System.Linq;
-using System.Security.Principal;
-using System.Threading.Tasks;
-
-using Cql.Core.Owin.Identity.Repositories;
-using Cql.Core.Owin.Identity.Types;
-using Cql.Core.ServiceLocation;
-
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Microsoft.Owin.Security.OAuth;
-
 namespace Cql.Core.Owin.Identity.Providers
 {
+    using System;
+    using System.Linq;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Owin.Identity.Repositories;
+    using Cql.Core.Owin.Identity.Types;
+    using Cql.Core.ServiceLocation;
+
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Microsoft.Owin.Security.OAuth;
+
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
         /// <summary>
-        /// Called when a request to the Token endpoint arrives with a "grant_type" of "refresh_token". This occurs if your application has issued a "refresh_token"
-        /// along with the "access_token", and the client is attempting to use the "refresh_token" to acquire a new "access_token", and possibly a new "refresh_token".
-        /// To issue a refresh token the an Options.RefreshTokenProvider must be assigned to create the value which is returned. The claims and properties
-        /// associated with the refresh token are present in the context.Ticket. The application must call context.Validated to instruct the
-        /// Authorization Server middleware to issue an access token based on those claims and properties. The call to context.Validated may
-        /// be given a different AuthenticationTicket or ClaimsIdentity in order to control which information flows from the refresh token to
-        /// the access token. The default behavior when using the OAuthAuthorizationServerProvider is to flow information from the refresh token to
+        /// Called when a request to the Token endpoint arrives with a "grant_type" of "refresh_token". This occurs if your
+        /// application has issued a "refresh_token"
+        /// along with the "access_token", and the client is attempting to use the "refresh_token" to acquire a new "access_token",
+        /// and possibly a new "refresh_token".
+        /// To issue a refresh token the an Options.RefreshTokenProvider must be assigned to create the value which is returned.
+        /// The claims and properties
+        /// associated with the refresh token are present in the context.Ticket. The application must call context.Validated to
+        /// instruct the
+        /// Authorization Server middleware to issue an access token based on those claims and properties. The call to
+        /// context.Validated may
+        /// be given a different AuthenticationTicket or ClaimsIdentity in order to control which information flows from the
+        /// refresh token to
+        /// the access token. The default behavior when using the OAuthAuthorizationServerProvider is to flow information from the
+        /// refresh token to
         /// the access token unmodified.
         /// See also http://tools.ietf.org/html/rfc6749#section-6
         /// </summary>
@@ -42,7 +49,7 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var applicationUserManager = context.OwinContext.Get<ApplicationUserManager>();
 
-            var identityUser = await FindUserFromTicket(applicationUserManager, context);
+            var identityUser = await this.FindUserFromTicket(applicationUserManager, context);
 
             if (identityUser.AccessRevokedDate != null)
             {
@@ -52,7 +59,7 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var newIdentity = await ProviderUtils.GenerateUserIdentityAsync(applicationUserManager, identityUser);
 
-            var authenticationProperties = GetAuthenticationProperties(context.ClientId, newIdentity, identityUser);
+            var authenticationProperties = this.GetAuthenticationProperties(context.ClientId, newIdentity, identityUser);
 
             var newTicket = new AuthenticationTicket(newIdentity, authenticationProperties);
 
@@ -62,12 +69,17 @@ namespace Cql.Core.Owin.Identity.Providers
         }
 
         /// <summary>
-        /// Called when a request to the Token endpoint arrives with a "grant_type" of "password". This occurs when the user has provided name and password
-        /// credentials directly into the client application's user interface, and the client application is using those to acquire an "access_token" and
+        /// Called when a request to the Token endpoint arrives with a "grant_type" of "password". This occurs when the user has
+        /// provided name and password
+        /// credentials directly into the client application's user interface, and the client application is using those to acquire
+        /// an "access_token" and
         /// optional "refresh_token". If the web application supports the
-        /// resource owner credentials grant type it must validate the context.Username and context.Password as appropriate. To issue an
-        /// access token the context.Validated must be called with a new ticket containing the claims about the resource owner which should be associated
-        /// with the access token. The application should take appropriate measures to ensure that the endpoint isn’t abused by malicious callers.
+        /// resource owner credentials grant type it must validate the context.Username and context.Password as appropriate. To
+        /// issue an
+        /// access token the context.Validated must be called with a new ticket containing the claims about the resource owner
+        /// which should be associated
+        /// with the access token. The application should take appropriate measures to ensure that the endpoint isn’t abused by
+        /// malicious callers.
         /// The default behavior is to reject this grant type.
         /// See also http://tools.ietf.org/html/rfc6749#section-4.3.2
         /// </summary>
@@ -81,7 +93,7 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var userManager = context.OwinContext.Get<ApplicationUserManager>();
 
-            var user = await FindUserAsync(userManager, context);
+            var user = await this.FindUserAsync(userManager, context);
 
             if (user == null)
             {
@@ -97,7 +109,7 @@ namespace Cql.Core.Owin.Identity.Providers
 
             var claimsIdentity = await ProviderUtils.GenerateUserIdentityAsync(userManager, user);
 
-            var authenticationProperties = GetAuthenticationProperties(context.ClientId, claimsIdentity, user);
+            var authenticationProperties = this.GetAuthenticationProperties(context.ClientId, claimsIdentity, user);
 
             var ticket = new AuthenticationTicket(claimsIdentity, authenticationProperties);
 
@@ -109,8 +121,10 @@ namespace Cql.Core.Owin.Identity.Providers
         }
 
         /// <summary>
-        /// Called at the final stage of a successful Token endpoint request. An application may implement this call in order to do any final
-        /// modification of the claims being used to issue access or refresh tokens. This call may also be used in order to add additional
+        /// Called at the final stage of a successful Token endpoint request. An application may implement this call in order to do
+        /// any final
+        /// modification of the claims being used to issue access or refresh tokens. This call may also be used in order to add
+        /// additional
         /// response parameters to the Token endpoint's json response body.
         /// </summary>
         /// <param name="context">The context of the event carries information in and results out.</param>
@@ -126,11 +140,14 @@ namespace Cql.Core.Owin.Identity.Providers
         }
 
         /// <summary>
-        /// Called to validate that the origin of the request is a registered "client_id", and that the correct credentials for that client are
+        /// Called to validate that the origin of the request is a registered "client_id", and that the correct credentials for
+        /// that client are
         /// present on the request. If the web application accepts Basic authentication credentials,
-        /// context.TryGetBasicCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request header. If the web
+        /// context.TryGetBasicCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the
+        /// request header. If the web
         /// application accepts "client_id" and "client_secret" as form encoded POST parameters,
-        /// context.TryGetFormCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the request body.
+        /// context.TryGetFormCredentials(out clientId, out clientSecret) may be called to acquire those values if present in the
+        /// request body.
         /// If context.Validated is not called the request will not proceed further.
         /// </summary>
         /// <param name="context">The context of the event carries information in and results out.</param>
@@ -167,7 +184,7 @@ namespace Cql.Core.Owin.Identity.Providers
                 return;
             }
 
-            if (IsInvalidClient(context, client, clientSecret))
+            if (this.IsInvalidClient(context, client, clientSecret))
             {
                 return;
             }
@@ -179,10 +196,14 @@ namespace Cql.Core.Owin.Identity.Providers
         }
 
         /// <summary>
-        /// Called to validate that the context.ClientId is a registered "client_id", and that the context.RedirectUri a "redirect_uri"
-        /// registered for that client. This only occurs when processing the Authorize endpoint. The application MUST implement this
-        /// call, and it MUST validate both of those factors before calling context.Validated. If the context.Validated method is called
-        /// with a given redirectUri parameter, then IsValidated will only become true if the incoming redirect URI matches the given redirect URI.
+        /// Called to validate that the context.ClientId is a registered "client_id", and that the context.RedirectUri a
+        /// "redirect_uri"
+        /// registered for that client. This only occurs when processing the Authorize endpoint. The application MUST implement
+        /// this
+        /// call, and it MUST validate both of those factors before calling context.Validated. If the context.Validated method is
+        /// called
+        /// with a given redirectUri parameter, then IsValidated will only become true if the incoming redirect URI matches the
+        /// given redirect URI.
         /// If context.Validated is not called the request will not proceed further.
         /// </summary>
         /// <param name="context">The context of the event carries information in and results out.</param>

@@ -1,11 +1,11 @@
-using Cql.Core.ReportingServices.ReportServer;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using Cql.Core.ReportingServices.ReportServer;
+
     public interface IReportServerExecutionContext
     {
-        TrustedUserHeader TrustedUserHeader { get; }
-
         ReportingService2010SoapClient Client { get; }
+
+        TrustedUserHeader TrustedUserHeader { get; }
     }
 }

@@ -1,18 +1,19 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-
-using Microsoft.Owin;
-
 namespace Cql.Core.Owin.WebPack
 {
+    using System;
+    using System.IO;
+    using System.Threading.Tasks;
+
+    using Microsoft.Owin;
+
     public class RedirectClientUrlsToIndexMiddleware : OwinMiddleware
     {
         private readonly OwinMiddleware _next;
 
-        public RedirectClientUrlsToIndexMiddleware(OwinMiddleware next) : base(next)
+        public RedirectClientUrlsToIndexMiddleware(OwinMiddleware next)
+            : base(next)
         {
-            _next = next;
+            this._next = next;
         }
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace Cql.Core.Owin.WebPack
 
                 var path = uri.Path;
 
-                if (!IsIgnoredPath(path) && string.IsNullOrEmpty(Path.GetExtension(path)))
+                if (!this.IsIgnoredPath(path) && string.IsNullOrEmpty(Path.GetExtension(path)))
                 {
                     if (await WebPackConfiguration.SendDefaultResponseHandler(context, WebPackConfiguration.DefaultFilePath))
                     {
@@ -35,7 +36,7 @@ namespace Cql.Core.Owin.WebPack
                 }
             }
 
-            await _next.Invoke(context);
+            await this._next.Invoke(context);
         }
 
         internal static async Task<bool> SendDefaultResponse(IOwinContext context, string defaultFilePath)

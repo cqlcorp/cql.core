@@ -1,19 +1,11 @@
-using System.Linq;
-
-using Microsoft.Owin;
-
 namespace Cql.Core.Owin
 {
+    using System.Linq;
+
+    using Microsoft.Owin;
+
     public static class HeaderExtensions
     {
-        /// <summary>
-        /// Gets original host name when forwarded by a proxy or load-balancer.
-        /// </summary>
-        public static string ForwardedOrigin(this IHeaderDictionary headers)
-        {
-            return headers.GetSingleHeaderValue("origin") ?? headers.GetSingleHeaderValue("x-forwarded-host");
-        }
-
         /// <summary>
         /// Gets the IP address of client forwarded by a proxy or load-balancer.
         /// </summary>
@@ -23,11 +15,11 @@ namespace Cql.Core.Owin
         }
 
         /// <summary>
-        /// Gets original request Protocol (HTTP/HTTPS) when forwarded by a proxy or load-balancer.
+        /// Gets original host name when forwarded by a proxy or load-balancer.
         /// </summary>
-        public static string ForwardedProtocol(this IHeaderDictionary headers)
+        public static string ForwardedOrigin(this IHeaderDictionary headers)
         {
-            return headers.GetSingleHeaderValue("x-forwarded-proto");
+            return headers.GetSingleHeaderValue("origin") ?? headers.GetSingleHeaderValue("x-forwarded-host");
         }
 
         /// <summary>
@@ -38,7 +30,15 @@ namespace Cql.Core.Owin
             var portValue = headers.GetSingleHeaderValue("x-forwarded-port");
 
             int port;
-            return int.TryParse(portValue, out port) ? (int?) port : null;
+            return int.TryParse(portValue, out port) ? (int?)port : null;
+        }
+
+        /// <summary>
+        /// Gets original request Protocol (HTTP/HTTPS) when forwarded by a proxy or load-balancer.
+        /// </summary>
+        public static string ForwardedProtocol(this IHeaderDictionary headers)
+        {
+            return headers.GetSingleHeaderValue("x-forwarded-proto");
         }
 
         public static string GetSingleHeaderValue(this IHeaderDictionary headers, string key)

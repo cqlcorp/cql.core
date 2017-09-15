@@ -1,7 +1,9 @@
-using System;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+
+    using StackExchange.Profiling.Data;
+
     public class CommandsExecutedEventArgs : EventArgs
     {
         public CommandsExecutedEventArgs()
@@ -9,12 +11,12 @@ namespace Cql.Core.SqlServer
         }
 
 #if PROFILER
-        public CommandsExecutedEventArgs(StackExchange.Profiling.Data.IDbProfiler profiler)
+        public CommandsExecutedEventArgs(IDbProfiler profiler)
         {
-            Profiler = profiler;
+            this.Profiler = profiler;
         }
 
-        public StackExchange.Profiling.Data.IDbProfiler Profiler { get; set; }
+        public IDbProfiler Profiler { get; set; }
 #endif
     }
 }

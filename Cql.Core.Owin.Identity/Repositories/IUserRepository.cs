@@ -1,11 +1,11 @@
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-
-using Cql.Core.Owin.Identity.Types;
-
 namespace Cql.Core.Owin.Identity.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Owin.Identity.Types;
+
     public interface IUserRepository
     {
         IQueryable<IdentityUser> Users { get; }

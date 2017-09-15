@@ -1,8 +1,8 @@
-using System.Data.Common;
-using System.Data.SqlClient;
-
 namespace Cql.Core.SqlServer
 {
+    using System.Data.Common;
+    using System.Data.SqlClient;
+
     public class DatabaseConnection
     {
         public string ConnectionName { get; set; }

@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace Cql.Core.Messaging
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IMessage : IDisposable
     {
         bool AllowSendingInTestEnvironment { get; set; }

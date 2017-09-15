@@ -1,22 +1,18 @@
-using System;
-using System.Net;
-using System.ServiceModel;
-using System.Threading.Tasks;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System;
+    using System.Net;
+    using System.ServiceModel;
+    using System.Threading.Tasks;
+
     public static class ReportServerClient
     {
-        public static Task<TResult> ExecuteAsync<TResult>(IReportServerConfig config,
-            Func<IReportServerExecutionContext, Task<TResult>> task)
+        public static Task<TResult> ExecuteAsync<TResult>(IReportServerConfig config, Func<IReportServerExecutionContext, Task<TResult>> task)
         {
             return ExecuteAsync(null, config, task);
         }
 
-        public static Task<TResult> ExecuteAsync<TResult>(
-            NetworkCredential credentials,
-            IReportServerConfig config,
-            Func<IReportServerExecutionContext, Task<TResult>> task)
+        public static Task<TResult> ExecuteAsync<TResult>(NetworkCredential credentials, IReportServerConfig config, Func<IReportServerExecutionContext, Task<TResult>> task)
         {
             var client = SoapClientFactory.CreateReportServiceClient(config);
 
@@ -35,16 +31,12 @@ namespace Cql.Core.SqlReportingServices
             }
         }
 
-        public static Task ExecuteAsync(IReportServerConfig config,
-            Func<IReportServerExecutionContext, Task> task)
+        public static Task ExecuteAsync(IReportServerConfig config, Func<IReportServerExecutionContext, Task> task)
         {
             return ExecuteAsync(null, config, task);
         }
 
-        public static Task ExecuteAsync(
-            NetworkCredential credentials,
-            IReportServerConfig config,
-            Func<IReportServerExecutionContext, Task> task)
+        public static Task ExecuteAsync(NetworkCredential credentials, IReportServerConfig config, Func<IReportServerExecutionContext, Task> task)
         {
             var client = SoapClientFactory.CreateReportServiceClient(config);
 

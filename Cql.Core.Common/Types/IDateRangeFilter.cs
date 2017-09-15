@@ -1,7 +1,7 @@
-using System;
-
 namespace Cql.Core.Common.Types
 {
+    using System;
+
     public interface IDateRangeFilter
     {
         DateTime? DateFrom { get; set; }

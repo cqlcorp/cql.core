@@ -1,23 +1,12 @@
-using System;
-using System.Runtime.Caching;
-using System.Threading.Tasks;
-
 namespace Cql.Core.Caching
 {
+    using System;
+    using System.Runtime.Caching;
+    using System.Threading.Tasks;
+
     public class MemoryCacheService : IMemoryCache
     {
         private static MemoryCache CacheInstance => Cache.MemoryCacheInstance;
-
-        public Task<long> GetCountAsync() => Task.FromResult(CacheInstance.GetCount());
-
-        public Task SetAsync(string key, object value, TimeSpan? timeToLive = null)
-        {
-            CacheInstance.Set(
-                new CacheItem(key, value),
-                new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now + timeToLive.GetValueOrDefault(Cache.DefaultTimeToLive) });
-
-            return Task.CompletedTask;
-        }
 
         public Task FlushAsync()
         {
@@ -33,9 +22,14 @@ namespace Cql.Core.Caching
             return Task.FromResult(cachedValue.Value);
         }
 
+        public Task<long> GetCountAsync()
+        {
+            return Task.FromResult(CacheInstance.GetCount());
+        }
+
         public Task<T> GetOrCreateAsync<T>(string key, Func<Task<T>> valueFactory)
         {
-            return GetOrCreateAsync(key, null, valueFactory);
+            return this.GetOrCreateAsync(key, null, valueFactory);
         }
 
         public async Task<T> GetOrCreateAsync<T>(string key, TimeSpan? timeToLive, Func<Task<T>> valueFactory)
@@ -49,7 +43,7 @@ namespace Cql.Core.Caching
 
             var value = await valueFactory();
 
-            await SetAsync(key, value, timeToLive);
+            await this.SetAsync(key, value, timeToLive);
 
             return value;
         }
@@ -57,6 +51,13 @@ namespace Cql.Core.Caching
         public Task RemoveAsync(string key)
         {
             CacheInstance.Remove(key);
+
+            return Task.CompletedTask;
+        }
+
+        public Task SetAsync(string key, object value, TimeSpan? timeToLive = null)
+        {
+            CacheInstance.Set(new CacheItem(key, value), new CacheItemPolicy { AbsoluteExpiration = DateTimeOffset.Now + timeToLive.GetValueOrDefault(Cache.DefaultTimeToLive) });
 
             return Task.CompletedTask;
         }
@@ -72,8 +73,8 @@ namespace Cql.Core.Caching
         {
             public CachedValue(object value)
             {
-                FoundInCache = value != null;
-                Value = ChangeType<TValue>(value);
+                this.FoundInCache = value != null;
+                this.Value = ChangeType<TValue>(value);
             }
 
             public bool FoundInCache { get; }

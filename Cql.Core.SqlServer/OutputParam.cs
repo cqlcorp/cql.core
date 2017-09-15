@@ -1,9 +1,9 @@
-using System;
-using System.Data;
-using System.Data.SqlClient;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Data;
+    using System.Data.SqlClient;
+
     public static class OutputParam
     {
         public static IDbDataParameter Create<T>(string name, SqlDbType type, T? value, int? size = null)
@@ -21,11 +21,7 @@ namespace Cql.Core.SqlServer
                 direction = ParameterDirection.InputOutput;
             }
 
-            return new SqlParameter(name, type, size.GetValueOrDefault(GetDefaultSizeForType(type)))
-            {
-                Direction = direction,
-                Value = value
-            };
+            return new SqlParameter(name, type, size.GetValueOrDefault(GetDefaultSizeForType(type))) { Direction = direction, Value = value };
         }
 
         internal static int GetDefaultSizeForType(SqlDbType type)

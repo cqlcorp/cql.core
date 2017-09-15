@@ -1,14 +1,14 @@
-using System;
-using System.ComponentModel;
-using System.Net;
-using System.Runtime.ExceptionServices;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-
-using Microsoft.Win32.SafeHandles;
-
-namespace Cql.NativeMethods.Logon
+namespace Cql.Core.NativeMethods.Logon
 {
+    using System;
+    using System.ComponentModel;
+    using System.Net;
+    using System.Runtime.ExceptionServices;
+    using System.Runtime.InteropServices;
+    using System.Threading.Tasks;
+
+    using Microsoft.Win32.SafeHandles;
+
     public static class WindowsLogon
     {
         public static WindowsLogonResult Logon(NetworkCredential credentials)
@@ -45,11 +45,7 @@ namespace Cql.NativeMethods.Logon
                 Win32Logon.PROVIDER_DEFAULT,
                 out safeAccessTokenHandle);
 
-            var result = new WindowsLogonResult
-                         {
-                             Success = success,
-                             Token = safeAccessTokenHandle
-                         };
+            var result = new WindowsLogonResult { Success = success, Token = safeAccessTokenHandle };
 
             if (success)
             {

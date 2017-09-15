@@ -1,9 +1,9 @@
-using System;
-using System.Net;
-using System.Threading.Tasks;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System;
+    using System.Net;
+    using System.Threading.Tasks;
+
     public static class ReportExecutionClient
     {
         public static Task<TResult> ExecuteAsync<TResult>(IReportServerConfig config, Func<IReportExecutionContext, Task<TResult>> task)

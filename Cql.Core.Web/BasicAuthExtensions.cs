@@ -1,13 +1,21 @@
-using System;
-using System.Text;
+using JetBrains.Annotations;
 
 namespace Cql.Core.Web
 {
+    using System;
+    using System.Text;
+
     public static class BasicAuthExtensions
     {
-        public static string ToBase64String(this IBasicAuthCredentials credentials)
+        [NotNull]
+        public static string ToBase64String([NotNull] this IBasicAuthCredentials credentials)
         {
-            string formattedString = $"{credentials.UserName}:{credentials.Password}";
+            if (credentials == null)
+            {
+                throw new ArgumentNullException(nameof(credentials));
+            }
+
+            var formattedString = $"{credentials.UserName}:{credentials.Password}";
 
             var encodedBytes = Encoding.UTF8.GetBytes(formattedString);
 

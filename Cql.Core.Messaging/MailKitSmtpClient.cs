@@ -1,4 +1,4 @@
-#if COREFX
+#if COREFX && !CORE20
 using System;
 using System.Threading.Tasks;
 

@@ -10,11 +10,11 @@ namespace Cql.Core.Web
         /// <summary>
         /// Generates a link that always uses HTTP traffic.
         /// </summary>
-        Never,
+        Never = 1,
 
         /// <summary>
         /// Generates a link that always uses SSL traffic.
         /// </summary>
-        Always
+        Always = 2
     }
 }

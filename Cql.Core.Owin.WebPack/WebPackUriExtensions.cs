@@ -1,8 +1,8 @@
-using System;
-using System.Linq;
-
 namespace Cql.Core.Owin.WebPack
 {
+    using System;
+    using System.Linq;
+
     public static class WebPackUriExtensions
     {
         public static bool IsWebpackDevServer(this Uri uri)
@@ -12,7 +12,7 @@ namespace Cql.Core.Owin.WebPack
 
         public static bool IsWebpackDevServer(this int? port)
         {
-            return WebPackConfiguration.DevServerPorts.Any(devServerPort =>  port.GetValueOrDefault() == devServerPort);
+            return WebPackConfiguration.DevServerPorts.Any(devServerPort => port.GetValueOrDefault() == devServerPort);
         }
     }
 }

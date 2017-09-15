@@ -1,17 +1,18 @@
-using System;
-using System.IO;
-using System.Linq;
-
-using Swashbuckle.Application;
-
 namespace Cql.Core.Owin.SwaggerDocs
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+
+    using Swashbuckle.Application;
+
     public static class SwaggerDocConfigExtensions
     {
         /// <summary>
         /// Add a sub-classed version of the <see cref="AuthTokenOperation" /> to customize the AuthToken endpoint documentation.
         /// </summary>
-        public static void AddAuthTokenDocumentation<TDocumentFilter>(this SwaggerDocsConfig c) where TDocumentFilter : AuthTokenOperation, new()
+        public static void AddAuthTokenDocumentation<TDocumentFilter>(this SwaggerDocsConfig c)
+            where TDocumentFilter : AuthTokenOperation, new()
         {
             c.DocumentFilter<TDocumentFilter>();
         }

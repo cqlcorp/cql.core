@@ -1,34 +1,34 @@
-using System.Net.Http.Extensions.Compression.Core.Compressors;
-using System.Web.Http;
-
-using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
-using Microsoft.Owin.Cors;
-using Microsoft.Owin.Security.OAuth;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-using Owin;
-
 namespace Cql.Core.Owin
 {
+    using System.Net.Http.Extensions.Compression.Core.Compressors;
+    using System.Web.Http;
+
+    using global::Owin;
+
+    using Microsoft.AspNet.WebApi.Extensions.Compression.Server.Owin;
+    using Microsoft.Owin.Cors;
+    using Microsoft.Owin.Security.OAuth;
+
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
+
     public class DefaultHttpConfigurationBuilder
     {
         public virtual HttpConfiguration CreateDefaultHttpConfiguration(IAppBuilder app)
         {
             var httpConfiguration = new HttpConfiguration();
 
-            ConfigureCorsSupport(httpConfiguration, app);
+            this.ConfigureCorsSupport(httpConfiguration, app);
 
-            ConfigureWebApiAuthorization(httpConfiguration);
+            this.ConfigureWebApiAuthorization(httpConfiguration);
 
-            ConfigureRoutes(httpConfiguration);
+            this.ConfigureRoutes(httpConfiguration);
 
-            ConfigureJsonFormatting(httpConfiguration);
+            this.ConfigureJsonFormatting(httpConfiguration);
 
-            EnableSupportForGzip(httpConfiguration);
+            this.EnableSupportForGzip(httpConfiguration);
 
-            SetErrorPolicy(httpConfiguration);
+            this.SetErrorPolicy(httpConfiguration);
 
             return httpConfiguration;
         }
@@ -44,23 +44,19 @@ namespace Cql.Core.Owin
             var jsonFormatter = httpConfiguration.Formatters.JsonFormatter;
 
             jsonFormatter.SerializerSettings = new JsonSerializerSettings
-            {
-                ContractResolver = new CamelCasePropertyNamesContractResolver(),
-                DateFormatHandling = DateFormatHandling.IsoDateFormat,
-                DateTimeZoneHandling = DateTimeZoneHandling.Local,
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
+                                                   {
+                                                       ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                                                       DateFormatHandling = DateFormatHandling.IsoDateFormat,
+                                                       DateTimeZoneHandling = DateTimeZoneHandling.Local,
+                                                       ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                                                   };
         }
 
         protected virtual void ConfigureRoutes(HttpConfiguration httpConfiguration)
         {
             httpConfiguration.MapHttpAttributeRoutes();
 
-            httpConfiguration.Routes.MapHttpRoute(
-                "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
-            );
+            httpConfiguration.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
         }
 
         /// <summary>

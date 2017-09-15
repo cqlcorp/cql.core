@@ -1,23 +1,10 @@
-using System;
-using System.Collections.Generic;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class DataGuard
     {
-        public static void ExpectThatValueIsNotNull<T>(T value) where T : class
-        {
-            ExpectThatValueIsNotNull(null, value);
-        }
-
-        public static void ExpectThatValueIsNotNull<T>(string parameterName, T value) where T : class
-        {
-            if (value == null)
-            {
-                ThrowValueCannotBeNullException<T>(parameterName);
-            }
-        }
-
         public static void ExpectThatStringIsNotNullOrEmpty(string parameterName, string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -52,16 +39,31 @@ namespace Cql.Core.SqlServer
             }
         }
 
+        public static void ExpectThatValueIsNotNull<T>(T value)
+            where T : class
+        {
+            ExpectThatValueIsNotNull(null, value);
+        }
+
+        public static void ExpectThatValueIsNotNull<T>(string parameterName, T value)
+            where T : class
+        {
+            if (value == null)
+            {
+                ThrowValueCannotBeNullException<T>(parameterName);
+            }
+        }
+
         private static void ThrowValueCannotBeNullException<T>(string parameterName)
         {
-            string message = $"An argument of type '{typeof(T).FullName}' cannot be null";
+            var message = $"An argument of type '{typeof(T).FullName}' cannot be null";
 
             if (!string.IsNullOrEmpty(parameterName))
             {
                 throw new ArgumentNullException(parameterName, message);
             }
 
-            throw new ArgumentNullException("", message);
+            throw new ArgumentNullException(string.Empty, message);
         }
     }
 }

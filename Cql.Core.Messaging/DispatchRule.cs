@@ -10,6 +10,6 @@ namespace Cql.Core.Messaging
         /// <summary>
         /// Dispatches messages to the live service (production mode).
         /// </summary>
-        Production
+        Production = 1
     }
 }

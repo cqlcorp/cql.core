@@ -1,25 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Principal;
-using System.Threading.Tasks;
-
-using Cql.Core.Owin.Identity.Repositories;
-using Cql.Core.Owin.Identity.Types;
-
-using Microsoft.AspNet.Identity;
-
 namespace Cql.Core.Owin.Identity
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Owin.Identity.Repositories;
+    using Cql.Core.Owin.Identity.Types;
+
+    using Microsoft.AspNet.Identity;
+
     public class IdentityStore : IIdentityStore
     {
         private readonly Lazy<IClaimRepository> _claimRepository;
+
         private readonly Lazy<IClientRepository> _clientRepository;
+
         private readonly Lazy<IRefreshTokenRepository> _refreshTokenRepository;
+
         private readonly Lazy<IUserAccessRepository> _userAccessRepository;
+
         private readonly Lazy<IUserLoginRepository> _userLoginRepository;
+
         private readonly Lazy<IUserRepository> _userRepository;
+
         private readonly Lazy<IUserRoleRepository> _userRoleRepository;
 
         public IdentityStore(
@@ -31,45 +37,45 @@ namespace Cql.Core.Owin.Identity
             Lazy<IUserRepository> userRepository,
             Lazy<IUserRoleRepository> userRoleRepository)
         {
-            _claimRepository = claimRepository;
-            _clientRepository = clientRepository;
-            _refreshTokenRepository = refreshTokenRepository;
-            _userAccessRepository = userAccessRepository;
-            _userLoginRepository = userLoginRepository;
-            _userRepository = userRepository;
-            _userRoleRepository = userRoleRepository;
+            this._claimRepository = claimRepository;
+            this._clientRepository = clientRepository;
+            this._refreshTokenRepository = refreshTokenRepository;
+            this._userAccessRepository = userAccessRepository;
+            this._userLoginRepository = userLoginRepository;
+            this._userRepository = userRepository;
+            this._userRoleRepository = userRoleRepository;
         }
 
-        public virtual IQueryable<IdentityUser> Users => _userRepository.Value.Users;
+        public virtual IQueryable<IdentityUser> Users => this._userRepository.Value.Users;
 
         public virtual Task AddClaimAsync(IdentityUser user, Claim claim)
         {
-            return _claimRepository.Value.AddClaimAsync(user.Id, claim);
+            return this._claimRepository.Value.AddClaimAsync(user.Id, claim);
         }
 
         public virtual Task AddLoginAsync(IdentityUser user, UserLoginInfo login)
         {
-            return _userLoginRepository.Value.AddLoginAsync(user, login);
+            return this._userLoginRepository.Value.AddLoginAsync(user, login);
         }
 
         public virtual Task<bool> AddRefreshToken(RefreshToken token)
         {
-            return _refreshTokenRepository.Value.AddRefreshToken(token);
+            return this._refreshTokenRepository.Value.AddRefreshToken(token);
         }
 
         public virtual Task AddToRoleAsync(IdentityUser user, string roleName)
         {
-            return _userRoleRepository.Value.AddToRoleAsync(user, roleName);
+            return this._userRoleRepository.Value.AddToRoleAsync(user, roleName);
         }
 
         public virtual Task CreateAsync(IdentityUser user)
         {
-            return _userRepository.Value.CreateAsync(user);
+            return this._userRepository.Value.CreateAsync(user);
         }
 
         public virtual Task DeleteAsync(IdentityUser user)
         {
-            return _userRepository.Value.DeleteAsync(user);
+            return this._userRepository.Value.DeleteAsync(user);
         }
 
         public virtual void Dispose()
@@ -78,32 +84,32 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task<IdentityUser> FindAsync(UserLoginInfo login)
         {
-            return _userLoginRepository.Value.FindAsync(login);
+            return this._userLoginRepository.Value.FindAsync(login);
         }
 
         public virtual Task<IdentityUser> FindByEmailAsync(string email)
         {
-            return _userRepository.Value.FindByEmailAsync(email);
+            return this._userRepository.Value.FindByEmailAsync(email);
         }
 
         public virtual Task<IdentityUser> FindByIdAsync(int userId)
         {
-            return _userRepository.Value.FindByIdAsync(userId);
+            return this._userRepository.Value.FindByIdAsync(userId);
         }
 
         public virtual Task<IdentityUser> FindByNameAsync(string userName)
         {
-            return _userRepository.Value.FindByNameAsync(userName);
+            return this._userRepository.Value.FindByNameAsync(userName);
         }
 
         public virtual Task<Client> FindClientByIdAsync(string clientId)
         {
-            return _clientRepository.Value.FindClientByIdAsync(clientId);
+            return this._clientRepository.Value.FindClientByIdAsync(clientId);
         }
 
         public virtual Task<RefreshToken> FindRefreshToken(string refreshTokenId)
         {
-            return _refreshTokenRepository.Value.FindRefreshToken(refreshTokenId);
+            return this._refreshTokenRepository.Value.FindRefreshToken(refreshTokenId);
         }
 
         public virtual Task<int> GetAccessFailedCountAsync(IdentityUser user)
@@ -113,12 +119,12 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task<IList<RefreshToken>> GetAllRefreshTokens()
         {
-            return _refreshTokenRepository.Value.GetAllRefreshTokens();
+            return this._refreshTokenRepository.Value.GetAllRefreshTokens();
         }
 
         public virtual Task<IList<Claim>> GetClaimsAsync(IdentityUser user)
         {
-            return _claimRepository.Value.GetClaimsAsync(user.Id);
+            return this._claimRepository.Value.GetClaimsAsync(user.Id);
         }
 
         public virtual Task<string> GetEmailAsync(IdentityUser user)
@@ -143,7 +149,7 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task<IList<UserLoginInfo>> GetLoginsAsync(IdentityUser user)
         {
-            return _userLoginRepository.Value.GetLoginsAsync(user);
+            return this._userLoginRepository.Value.GetLoginsAsync(user);
         }
 
         public virtual Task<string> GetPasswordHashAsync(IdentityUser user)
@@ -163,7 +169,7 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task<IList<string>> GetRolesAsync(IdentityUser user)
         {
-            return _userRoleRepository.Value.GetRolesAsync(user);
+            return this._userRoleRepository.Value.GetRolesAsync(user);
         }
 
         public virtual Task<string> GetSecurityStampAsync(IdentityUser user)
@@ -178,7 +184,7 @@ namespace Cql.Core.Owin.Identity
 
         public virtual async Task<IdentityResult> GrantAccess(IPrincipal currentUser, int userId)
         {
-            await _userAccessRepository.Value.GrantAccess(userId);
+            await this._userAccessRepository.Value.GrantAccess(userId);
 
             return IdentityResult.Success;
         }
@@ -198,32 +204,32 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task<bool> IsInRoleAsync(IdentityUser user, string roleName)
         {
-            return _userRoleRepository.Value.IsInRoleAsync(user, roleName);
+            return this._userRoleRepository.Value.IsInRoleAsync(user, roleName);
         }
 
         public virtual Task RemoveClaimAsync(IdentityUser user, Claim claim)
         {
-            return _claimRepository.Value.RemoveClaimAsync(user.Id, claim);
+            return this._claimRepository.Value.RemoveClaimAsync(user.Id, claim);
         }
 
         public virtual Task RemoveFromRoleAsync(IdentityUser user, string roleName)
         {
-            return _userRoleRepository.Value.RemoveFromRoleAsync(user, roleName);
+            return this._userRoleRepository.Value.RemoveFromRoleAsync(user, roleName);
         }
 
         public virtual Task RemoveLoginAsync(IdentityUser user, UserLoginInfo login)
         {
-            return _userLoginRepository.Value.RemoveLoginAsync(user, login);
+            return this._userLoginRepository.Value.RemoveLoginAsync(user, login);
         }
 
         public virtual Task<bool> RemoveRefreshToken(string refreshTokenId)
         {
-            return _refreshTokenRepository.Value.RemoveRefreshToken(refreshTokenId);
+            return this._refreshTokenRepository.Value.RemoveRefreshToken(refreshTokenId);
         }
 
         public virtual Task<bool> RemoveRefreshToken(RefreshToken refreshToken)
         {
-            return _refreshTokenRepository.Value.RemoveRefreshToken(refreshToken);
+            return this._refreshTokenRepository.Value.RemoveRefreshToken(refreshToken);
         }
 
         public virtual Task ResetAccessFailedCountAsync(IdentityUser user)
@@ -237,7 +243,7 @@ namespace Cql.Core.Owin.Identity
         {
             var currentUserId = currentUser.Identity.GetUserId<int>();
 
-            await _userAccessRepository.Value.RevokeAccess(userId, currentUserId);
+            await this._userAccessRepository.Value.RevokeAccess(userId, currentUserId);
 
             return IdentityResult.Success;
         }
@@ -307,7 +313,7 @@ namespace Cql.Core.Owin.Identity
 
         public virtual Task UpdateAsync(IdentityUser user)
         {
-            return _userRepository.Value.UpdateAsync(user);
+            return this._userRepository.Value.UpdateAsync(user);
         }
     }
 }

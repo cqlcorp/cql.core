@@ -1,15 +1,20 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using Cql.Core.Common.Extensions;
 
+using JetBrains.Annotations;
+
 namespace Cql.Core.Web
 {
+    [SuppressMessage("ReSharper", "StringLiteralTypo", Justification = "Mime type constants")]
     public static class MimeTypeUtil
     {
         public const string DefaultContentType = "application/octet-stream";
 
-        public static string GetContentType(string fileName)
+        [NotNull]
+        public static string GetContentType([CanBeNull] string fileName)
         {
             if (string.IsNullOrWhiteSpace(fileName))
             {
@@ -94,7 +99,7 @@ namespace Cql.Core.Web
             }
         }
 
-        public static bool IsImage(string fileName)
+        public static bool IsImage([CanBeNull] string fileName)
         {
             var contentType = GetContentType(fileName);
 

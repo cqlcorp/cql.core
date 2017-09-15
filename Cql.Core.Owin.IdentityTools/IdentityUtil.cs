@@ -1,10 +1,10 @@
-using System;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace Cql.Core.Owin.IdentityTools
 {
+    using System;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class IdentityUtil
     {
         /// <summary>
@@ -30,7 +30,7 @@ namespace Cql.Core.Owin.IdentityTools
         }
 
         /// <summary>
-        /// Generates a random character ID values from <paramref name="size"/> iterations of <see cref="Guid"/> string values.
+        /// Generates a random character ID values from <paramref name="size" /> iterations of <see cref="Guid" /> string values.
         /// <para> </para>
         /// <para>Example Outputs:</para>
         /// <para>size = 1 -> 837d3b4a0f3e4dd7909839844a6f4f8b</para>
@@ -38,7 +38,7 @@ namespace Cql.Core.Owin.IdentityTools
         /// </summary>
         public static string NewId(int? size = null)
         {
-            return string.Join("", Enumerable.Repeat($"{Guid.NewGuid():n}", size.GetValueOrDefault(1)));
+            return string.Join(string.Empty, Enumerable.Repeat($"{Guid.NewGuid():n}", size.GetValueOrDefault(1)));
         }
     }
 }

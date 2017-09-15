@@ -1,34 +1,32 @@
-using System.Threading.Tasks;
-
 namespace Cql.Core.Messaging
 {
+    using System.Threading.Tasks;
+
     public class EmailService : IEmailService
     {
         private readonly EmailServiceConfig _config;
+
         private readonly IMessageDispatchService _productionDispatcher;
+
         private readonly IMessageDispatchService _testDispatchService;
 
         public EmailService(EmailServiceConfig config, IMessageDispatchService productionDispatcher, IMessageDispatchService testDispatchService)
         {
-            _config = config;
-            _productionDispatcher = productionDispatcher;
-            _testDispatchService = testDispatchService;
+            this._config = config;
+            this._productionDispatcher = productionDispatcher;
+            this._testDispatchService = testDispatchService;
         }
 
         public Task<MessageDispatchResult> SendAsync(EmailMessage message)
         {
             if (message == null)
             {
-                return Task.FromResult(new MessageDispatchResult
-                {
-                    Succeeded = false,
-                    Errors = "The message cannot be null."
-                });
+                return Task.FromResult(new MessageDispatchResult { Succeeded = false, Errors = "The message cannot be null." });
             }
 
             if (message.From == null)
             {
-                message.From = _config.EmailFromAddress;
+                message.From = this._config.EmailFromAddress;
             }
 
             if (message.IsBodyHtml == null)
@@ -38,19 +36,15 @@ namespace Cql.Core.Messaging
 
             if (!message.IsSendable)
             {
-                return Task.FromResult(new MessageDispatchResult
-                {
-                    Succeeded = false,
-                    Errors = "The message is not sendable."
-                });
+                return Task.FromResult(new MessageDispatchResult { Succeeded = false, Errors = "The message is not sendable." });
             }
 
-            if (_config.DispatchMode == DispatchMode.Production || message.AllowSendingInTestEnvironment)
+            if (this._config.DispatchMode == DispatchMode.Production || message.AllowSendingInTestEnvironment)
             {
-                return _productionDispatcher.SendAsync(message);
+                return this._productionDispatcher.SendAsync(message);
             }
 
-            return _testDispatchService.SendAsync(message);
+            return this._testDispatchService.SendAsync(message);
         }
     }
 }

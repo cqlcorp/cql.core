@@ -2,14 +2,14 @@ namespace Cql.Core.Web
 {
     public class FileContent
     {
-        public ContentDelivery? ContentDelivery { get; set; }
+        public byte[] ContentBytes { get; set; }
 
-        public string FileName { get; set; }
+        public ContentDelivery? ContentDelivery { get; set; }
 
         public string ContentType { get; set; }
 
-        public bool NotFound => ContentBytes == null || ContentBytes.Length == 0;
+        public string FileName { get; set; }
 
-        public byte[] ContentBytes { get; set; }
+        public bool NotFound => this.ContentBytes == null || this.ContentBytes.Length == 0;
     }
 }

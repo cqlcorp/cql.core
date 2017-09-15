@@ -1,13 +1,12 @@
-using System.Security.Cryptography.X509Certificates;
-using System.ServiceModel;
-using System.ServiceModel.Security;
-
-using Cql.Core.SqlReportingServices;
-using Cql.Core.ReportingServices.ReportExecution;
-using Cql.Core.ReportingServices.ReportServer;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System.Security.Cryptography.X509Certificates;
+    using System.ServiceModel;
+    using System.ServiceModel.Security;
+
+    using Cql.Core.ReportingServices.ReportExecution;
+    using Cql.Core.ReportingServices.ReportServer;
+
     internal static class SoapClientFactory
     {
         public static ReportExecutionServiceSoapClient CreateReportExecutionClient(IReportServerConfig config)
@@ -20,20 +19,25 @@ namespace Cql.Core.SqlReportingServices
         {
             InitBinding(config);
             return new ReportingService2010SoapClient(config.Binding, new EndpointAddress(config.EndPointAddress))
-                   {
-                       ClientCredentials =
                        {
-                           ServiceCertificate =
-                           {
-                               SslCertificateAuthentication = new X509ServiceCertificateAuthentication
-                                                              {
-                                                                  CertificateValidationMode = X509CertificateValidationMode.None,
-                                                                  RevocationMode = X509RevocationMode.NoCheck
-                                                              }
-                           }
-                       }
-
-                   };
+                           ClientCredentials =
+                               {
+                                   ServiceCertificate =
+                                       {
+                                           SslCertificateAuthentication
+                                               = new
+                                                     X509ServiceCertificateAuthentication
+                                                         {
+                                                             CertificateValidationMode
+                                                                 = X509CertificateValidationMode
+                                                                     .None,
+                                                             RevocationMode
+                                                                 = X509RevocationMode
+                                                                     .NoCheck
+                                                         }
+                                       }
+                               }
+                       };
         }
 
         private static void InitBinding(IReportServerConfig config)

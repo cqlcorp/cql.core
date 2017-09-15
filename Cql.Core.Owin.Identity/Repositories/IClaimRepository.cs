@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
 namespace Cql.Core.Owin.Identity.Repositories
 {
+    using System.Collections.Generic;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
     public interface IClaimRepository
     {
         Task AddClaimAsync(int userId, Claim claim);

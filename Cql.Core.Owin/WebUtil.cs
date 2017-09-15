@@ -1,13 +1,10 @@
-using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Net.Http;
-using System.Net.Mail;
-using System.Text;
-using System.Text.RegularExpressions;
-
 namespace Cql.Core.Owin
 {
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Net.Mail;
+    using System.Text.RegularExpressions;
+
     public static class WebUtil
     {
         [SuppressMessage("ReSharper", "InvertIf")]
@@ -107,7 +104,5 @@ namespace Cql.Core.Owin
             // ReSharper disable once ObjectCreationAsStatement
             new MailAddress(address);
         }
-
-
     }
 }

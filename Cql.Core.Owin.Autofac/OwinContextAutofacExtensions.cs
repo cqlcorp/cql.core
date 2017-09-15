@@ -1,10 +1,10 @@
-﻿using Autofac;
-using Autofac.Integration.Owin;
-
-using Microsoft.Owin;
-
-namespace Cql.Core.Owin.Autofac
+﻿namespace Cql.Core.Owin.Autofac
 {
+    using global::Autofac;
+    using global::Autofac.Integration.Owin;
+
+    using Microsoft.Owin;
+
     public static class OwinContextAutofacExtensions
     {
         public static T Resolve<T>(this IOwinContext owinContext)

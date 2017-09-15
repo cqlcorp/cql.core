@@ -1,22 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Dapper;
-
 namespace Cql.Core.SqlServer
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using Dapper;
+
     public static class ExtensionsForDapper
     {
-        public static DbString AsVarcharDbString(this string value, string defaultValue = "")
-        {
-            return AsVarcharDbString(value, DbStringLength.Max, defaultValue);
-        }
-
-        public static DbString AsVarcharDbString(this string value, int maxLenth, string defaultValue = "")
-        {
-            return value.AsDbString(maxLenth, defaultValue, true, false);
-        }
-
         public static DbString AsCharDbString(this string value, int maxLenth, string defaultValue = "")
         {
             return value.AsDbString(maxLenth, defaultValue, true, true);
@@ -37,6 +28,26 @@ namespace Cql.Core.SqlServer
             return value.AsDbString(maxLenth, defaultValue, false, false);
         }
 
+        public static DbString AsVarcharDbString(this string value, string defaultValue = "")
+        {
+            return AsVarcharDbString(value, DbStringLength.Max, defaultValue);
+        }
+
+        public static DbString AsVarcharDbString(this string value, int maxLenth, string defaultValue = "")
+        {
+            return value.AsDbString(maxLenth, defaultValue, true, false);
+        }
+
+        public static List<TResult> ReadToList<TSource, TResult>(this SqlMapper.GridReader reader, Func<TSource, TResult> selector)
+        {
+            return reader.Read<TSource>().Select(selector).ToList();
+        }
+
+        public static List<T> ReadToList<T>(this SqlMapper.GridReader reader, Func<dynamic, T> selector)
+        {
+            return reader.Read().Select(selector).ToList();
+        }
+
         /// <summary>
         /// Creates a <see cref="DbString" /> Dapper parameter
         /// </summary>
@@ -52,18 +63,9 @@ namespace Cql.Core.SqlServer
         /// <returns>
         /// An instance of a <see cref="DbString" />.
         /// </returns>
-        private static DbString AsDbString(
-            this string value,
-            int maxLength,
-            string defaultValue = "",
-            bool? isAnsi = null,
-            bool? isFixedLength = null)
+        private static DbString AsDbString(this string value, int maxLength, string defaultValue = "", bool? isAnsi = null, bool? isFixedLength = null)
         {
-            var s = new DbString
-                    {
-                        Length = maxLength,
-                        Value = value.ToMaxLength(maxLength) ?? defaultValue
-                    };
+            var s = new DbString { Length = maxLength, Value = value.ToMaxLength(maxLength) ?? defaultValue };
 
             if (isAnsi.HasValue)
             {
@@ -76,16 +78,6 @@ namespace Cql.Core.SqlServer
             }
 
             return s;
-        }
-
-        public static List<TResult> ReadToList<TSource, TResult>(this SqlMapper.GridReader reader, Func<TSource, TResult> selector)
-        {
-            return reader.Read<TSource>().Select(selector).ToList();
-        }
-
-        public static List<T> ReadToList<T>(this SqlMapper.GridReader reader, Func<dynamic, T> selector)
-        {
-            return reader.Read().Select(selector).ToList();
         }
     }
 }

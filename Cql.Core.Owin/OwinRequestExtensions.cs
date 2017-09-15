@@ -1,9 +1,9 @@
-using System;
-
-using Microsoft.Owin;
-
 namespace Cql.Core.Owin
 {
+    using System;
+
+    using Microsoft.Owin;
+
     public static class OwinRequestExtensions
     {
         public static bool ExpectsHtml(this IOwinRequest request)

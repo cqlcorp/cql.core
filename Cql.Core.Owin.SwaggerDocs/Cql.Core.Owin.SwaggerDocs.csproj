@@ -21,7 +21,7 @@
     <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.3" />
     <PackageReference Include="microsoft.aspnet.webapi.owin" Version="5.2.3" />
     <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Swashbuckle.Blue" Version="6.0.0.41" />
     <PackageReference Include="Swashbuckle.Blue.Core" Version="6.0.0.41" />
     <PackageReference Include="WebActivatorEx" Version="2.2.0" />

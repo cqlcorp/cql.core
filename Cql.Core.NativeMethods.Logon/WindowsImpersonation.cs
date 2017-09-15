@@ -1,12 +1,12 @@
-using System;
-using System.Net;
-using System.Security.Principal;
-using System.Threading.Tasks;
-
-using Microsoft.Win32.SafeHandles;
-
-namespace Cql.NativeMethods.Logon
+namespace Cql.Core.NativeMethods.Logon
 {
+    using System;
+    using System.Net;
+    using System.Security.Principal;
+    using System.Threading.Tasks;
+
+    using Microsoft.Win32.SafeHandles;
+
     public static class WindowsImpersonation
     {
         public static void RunImpersonated(NetworkCredential credentials, Action impersonatedAction)

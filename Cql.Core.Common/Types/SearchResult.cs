@@ -1,7 +1,7 @@
-using Newtonsoft.Json;
-
 namespace Cql.Core.Common.Types
 {
+    using Newtonsoft.Json;
+
     public class SearchResult : ISearchResult
     {
         [JsonIgnore]

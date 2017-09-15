@@ -13,16 +13,15 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
-    <ProjectReference Include="..\Cql.Core.Owin\Cql.Core.Owin.csproj" />
     <ProjectReference Include="..\Cql.Core.SqlServer\Cql.Core.SqlServer.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
     <PackageReference Include="Owin.Security.AesDataProtectorProvider" Version="1.1.1" />
-    <PackageReference Include="Autofac" Version="4.6.0" />
+    <PackageReference Include="Autofac" Version="4.6.1" />
     <PackageReference Include="Autofac.Extras.CommonServiceLocator" Version="4.0.0" />
-    <PackageReference Include="Autofac.Owin" Version="4.0.0" />
+    <PackageReference Include="Autofac.Owin" Version="4.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,6 +30,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Update="NuGet.Build.Tasks.Pack" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

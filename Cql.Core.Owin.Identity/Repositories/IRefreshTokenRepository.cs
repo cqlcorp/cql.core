@@ -1,10 +1,10 @@
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-using Cql.Core.Owin.Identity.Types;
-
 namespace Cql.Core.Owin.Identity.Repositories
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Cql.Core.Owin.Identity.Types;
+
     public interface IRefreshTokenRepository
     {
         Task<bool> AddRefreshToken(RefreshToken token);

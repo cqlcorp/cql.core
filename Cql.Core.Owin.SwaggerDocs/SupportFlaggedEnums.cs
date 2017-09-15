@@ -1,10 +1,10 @@
-using System.Linq;
-using System.Web.Http.Description;
-
-using Swashbuckle.Swagger;
-
 namespace Cql.Core.Owin.SwaggerDocs
 {
+    using System.Linq;
+    using System.Web.Http.Description;
+
+    using Swashbuckle.Swagger;
+
     public class SupportFlaggedEnums : IOperationFilter
     {
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
@@ -14,9 +14,7 @@ namespace Cql.Core.Owin.SwaggerDocs
                 return;
             }
 
-            var queryEnumParams = operation.parameters
-                .Where(param => param.@in == "query" && param.@enum != null)
-                .ToArray();
+            var queryEnumParams = operation.parameters.Where(param => param.@in == "query" && param.@enum != null).ToArray();
 
             foreach (var param in queryEnumParams)
             {

@@ -1,88 +1,89 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-
 namespace Cql.Core.Messaging
 {
-    public class EmailMessage : IMessage, IDisposable
+    using System;
+    using System.Collections.Generic;
+    using System.Net.Mail;
+    using System.Threading;
+
+    public class EmailMessage : IMessage
     {
         private List<MessageAttachment> _attachments;
+
         private List<MessageAddress> _bcc;
+
         private List<MessageAddress> _cc;
+
         private List<MessageAddress> _replyTo;
+
         private List<MessageAddress> _to;
 
         public bool AllowSendingInTestEnvironment { get; set; }
 
         public List<MessageAttachment> Attachments
         {
-            get { return LazyInitializer.EnsureInitialized(ref _attachments); }
-            set { _attachments = value; }
+            get => LazyInitializer.EnsureInitialized(ref this._attachments);
+            set => this._attachments = value;
         }
 
         public List<MessageAddress> Bcc
         {
-            get { return LazyInitializer.EnsureInitialized(ref _bcc, () => new List<MessageAddress>()); }
-            set { _bcc = value; }
+            get
+            {
+                return LazyInitializer.EnsureInitialized(ref this._bcc, () => new List<MessageAddress>());
+            }
+
+            set => this._bcc = value;
         }
 
         public string Body { get; set; }
 
         public List<MessageAddress> Cc
         {
-            get { return LazyInitializer.EnsureInitialized(ref _cc, () => new List<MessageAddress>()); }
-            set { _cc = value; }
+            get
+            {
+                return LazyInitializer.EnsureInitialized(ref this._cc, () => new List<MessageAddress>());
+            }
+
+            set => this._cc = value;
         }
 
         public MessageAddress From { get; set; }
 
         public Guid Guid { get; set; } = Guid.NewGuid();
 
-        public bool HasAttachments => _attachments != null && _attachments.Count > 0;
+        public bool HasAttachments => this._attachments != null && this._attachments.Count > 0;
 
         public bool? IsBodyHtml { get; set; }
 
-        public bool IsSendable => !string.IsNullOrWhiteSpace(Body) && !string.IsNullOrWhiteSpace(Subject) && To.Count > 0 && From != null;
+        public bool IsSendable => !string.IsNullOrWhiteSpace(this.Body) && !string.IsNullOrWhiteSpace(this.Subject) && this.To.Count > 0 && this.From != null;
 
         public List<MessageAddress> ReplyTo
         {
-            get { return LazyInitializer.EnsureInitialized(ref _replyTo, () => new List<MessageAddress>()); }
-            set { _replyTo = value; }
+            get
+            {
+                return LazyInitializer.EnsureInitialized(ref this._replyTo, () => new List<MessageAddress>());
+            }
+
+            set => this._replyTo = value;
         }
 
         public string Subject { get; set; }
 
         public List<MessageAddress> To
         {
-            get { return LazyInitializer.EnsureInitialized(ref _to, () => new List<MessageAddress>()); }
-            set { _to = value; }
-        }
-
-        public void Dispose()
-        {
-            if (!HasAttachments)
+            get
             {
-                return;
+                return LazyInitializer.EnsureInitialized(ref this._to, () => new List<MessageAddress>());
             }
 
-            foreach (var messageAttachment in Attachments)
-            {
-                messageAttachment?.Dispose();
-            }
+            set => this._to = value;
         }
 
-#if NET451
+#if NET451 || CORE20
 
-        public static System.Net.Mail.MailMessage CreateFromMessage(IMessage message)
+        public static MailMessage CreateFromMessage(IMessage message)
         {
-            var msg = new System.Net.Mail.MailMessage
-            {
-                From = message.From,
-                IsBodyHtml = message.IsBodyHtml.GetValueOrDefault(),
-                Body = message.Body,
-                Subject = message.Subject
-            };
-
+            var msg = new MailMessage { From = message.From, IsBodyHtml = message.IsBodyHtml.GetValueOrDefault(), Body = message.Body, Subject = message.Subject };
 
             foreach (var address in message.To)
             {
@@ -114,6 +115,20 @@ namespace Cql.Core.Messaging
 
             return msg;
         }
+
 #endif
+
+        public void Dispose()
+        {
+            if (!this.HasAttachments)
+            {
+                return;
+            }
+
+            foreach (var messageAttachment in this.Attachments)
+            {
+                messageAttachment?.Dispose();
+            }
+        }
     }
 }

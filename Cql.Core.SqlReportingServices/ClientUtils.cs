@@ -1,78 +1,64 @@
-using System;
-using System.Net;
-using System.Security.Principal;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-
 namespace Cql.Core.SqlReportingServices
 {
+    using System;
+    using System.Net;
+    using System.Security.Principal;
+    using System.ServiceModel;
+    using System.ServiceModel.Channels;
+
     public static class ClientUtils
     {
         public static Binding BasicAuthSecureTransportBinding()
         {
-            return new BasicHttpsBinding
-            {
-                Security =
-                {
-                    Transport =
-                    {
-                        ClientCredentialType = HttpClientCredentialType.Basic
-                    }
-                },
-                MaxReceivedMessageSize = int.MaxValue
-            };
+            return new BasicHttpsBinding { Security = { Transport = { ClientCredentialType = HttpClientCredentialType.Basic } }, MaxReceivedMessageSize = int.MaxValue };
         }
 
         public static Binding BasicAuthTransportBinding()
         {
             return new BasicHttpBinding
-            {
-                Security =
-                {
-                    Mode = BasicHttpSecurityMode.TransportCredentialOnly,
-                    Transport =
-                    {
-                        ClientCredentialType = HttpClientCredentialType.Basic
-                    }
-                },
-                MaxReceivedMessageSize = int.MaxValue
-            };
+                       {
+                           Security =
+                               {
+                                   Mode = BasicHttpSecurityMode.TransportCredentialOnly,
+                                   Transport = {
+                                                  ClientCredentialType = HttpClientCredentialType.Basic 
+                                               }
+                               },
+                           MaxReceivedMessageSize = int.MaxValue
+                       };
+        }
+
+        public static HttpClientCredentialType GetCredentialType<TChannel>(this ClientBase<TChannel> client)
+            where TChannel : class
+        {
+            var credType = (client.Endpoint.Binding as BasicHttpBinding)?.Security?.Transport?.ClientCredentialType
+                           ?? (client.Endpoint.Binding as BasicHttpsBinding)?.Security?.Transport?.ClientCredentialType;
+
+            return credType ?? HttpClientCredentialType.Ntlm;
         }
 
         public static Binding NtlmSecureTransportBinding()
         {
-            return new BasicHttpsBinding
-            {
-                Security =
-                {
-                    Transport =
-                    {
-                        ClientCredentialType = HttpClientCredentialType.Ntlm
-                    }
-                },
-                MaxReceivedMessageSize = int.MaxValue
-            };
+            return new BasicHttpsBinding { Security = { Transport = { ClientCredentialType = HttpClientCredentialType.Ntlm } }, MaxReceivedMessageSize = int.MaxValue };
         }
 
         public static Binding NtlmTransportBinding()
         {
             return new BasicHttpBinding
-            {
-                Security =
-                {
-                    Mode = BasicHttpSecurityMode.TransportCredentialOnly,
-                    Transport =
-                    {
-                        ClientCredentialType = HttpClientCredentialType.Ntlm
-                    }
-                },
-                MaxReceivedMessageSize = int.MaxValue
-            };
+                       {
+                           Security =
+                               {
+                                   Mode = BasicHttpSecurityMode.TransportCredentialOnly,
+                                   Transport = {
+                                                  ClientCredentialType = HttpClientCredentialType.Ntlm 
+                                               }
+                               },
+                           MaxReceivedMessageSize = int.MaxValue
+                       };
         }
 
-        public static void SetCredentials<TChannel>(
-            this ClientBase<TChannel> client,
-            NetworkCredential networkCredential = null) where TChannel : class
+        public static void SetCredentials<TChannel>(this ClientBase<TChannel> client, NetworkCredential networkCredential = null)
+            where TChannel : class
         {
             var clientCredentials = client.ClientCredentials;
 
@@ -100,6 +86,7 @@ namespace Cql.Core.SqlReportingServices
                         userNamePassword.UserName = networkCredential.UserNameWithDomain();
                         userNamePassword.Password = networkCredential.Password;
                     }
+
                     break;
 
                 case HttpClientCredentialType.Ntlm:
@@ -111,22 +98,13 @@ namespace Cql.Core.SqlReportingServices
                     {
                         windowsCredentials.ClientCredential = networkCredential;
                     }
+
                     windowsCredentials.AllowedImpersonationLevel = TokenImpersonationLevel.Impersonation;
                     break;
 
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public static HttpClientCredentialType GetCredentialType<TChannel>(this ClientBase<TChannel> client)
-            where TChannel : class
-        {
-            var credType =
-                (client.Endpoint.Binding as BasicHttpBinding)?.Security?.Transport?.ClientCredentialType ??
-                (client.Endpoint.Binding as BasicHttpsBinding)?.Security?.Transport?.ClientCredentialType;
-
-            return credType ?? HttpClientCredentialType.Ntlm;
         }
 
         internal static string UserNameWithDomain(this NetworkCredential networkCredential)
