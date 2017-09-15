@@ -45,6 +45,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.SqlReportingServic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.TransactionScopes", "Cql.Core.TransactionScopes\Cql.Core.TransactionScopes.csproj", "{1BA23C66-209B-4201-A402-C8389E078CCC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.AspNetCore", "Cql.Core.AspNetCore\Cql.Core.AspNetCore.csproj", "{D98D48E8-4457-4D3F-BEAA-C35920E214BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -271,6 +273,18 @@ Global
 		{1BA23C66-209B-4201-A402-C8389E078CCC}.Release|x64.Build.0 = Release|Any CPU
 		{1BA23C66-209B-4201-A402-C8389E078CCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{1BA23C66-209B-4201-A402-C8389E078CCC}.Release|x86.Build.0 = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|x64.Build.0 = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Debug|x86.Build.0 = Debug|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x64.ActiveCfg = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x64.Build.0 = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
