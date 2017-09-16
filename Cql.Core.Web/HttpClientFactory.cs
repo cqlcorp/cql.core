@@ -11,6 +11,7 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+
 namespace Cql.Core.Web
 {
     using System;
@@ -20,27 +21,17 @@ namespace Cql.Core.Web
     using JetBrains.Annotations;
 
     /// <summary>
-    /// Creates a <see cref="HttpClient"/> that supports Automatic Decompression.
+    /// Creates a <see cref="HttpClient" /> that supports Automatic Decompression.
     /// </summary>
     public static class HttpClientFactory
     {
         /// <summary>
         /// Creates an HTTP client that supports automatic decompression handling.
         /// </summary>
-        /// <returns>An HttpClient.</returns>
-        [NotNull]
-        public static HttpClient CreateHttpClient()
-        {
-            return CreateHttpClient(null);
-        }
-
-        /// <summary>
-        /// Creates an HTTP client that supports automatic decompression handling.
-        /// </summary>
         /// <param name="setDefaultsHandler">An action that modifies the created HttpClient</param>
         /// <returns>An HttpClient.</returns>
         [NotNull]
-        public static HttpClient CreateHttpClient([CanBeNull] Action<HttpClient> setDefaultsHandler)
+        public static HttpClient CreateHttpClient([CanBeNull] Action<HttpClient> setDefaultsHandler = null)
         {
             var handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.Deflate | DecompressionMethods.GZip };
 

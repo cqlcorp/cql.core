@@ -39,7 +39,7 @@ namespace Cql.Core.Web
         /// </summary>
         /// <param name="request">The HTTP request.</param>
         /// <returns>true if the specified HTTP request is an AJAX request; otherwise, false.</returns>
-        /// <exception cref="ArgumentNullException">The <paramref name="request" /> parameter is null (Nothing in Visual Basic).</exception>
+        /// <exception cref="ArgumentNullException">The <paramref name="request" /> parameter is null.</exception>
         public static bool IsAjaxRequest([NotNull] this HttpRequestMessage request)
         {
             if (request == null)

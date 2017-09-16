@@ -33,7 +33,7 @@ namespace Cql.Core.Web
         /// </summary>
         /// <value>The default error message.</value>
         [NotNull]
-        public static string DefaultErrorMessage { get; set; } = "An error occured.";
+        public static string DefaultErrorMessage { get; set; } = "An error occurred.";
 
         /// <summary>
         /// Gets or sets the default validation message.

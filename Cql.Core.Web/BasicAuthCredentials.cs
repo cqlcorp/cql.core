@@ -52,7 +52,7 @@ namespace Cql.Core.Web
         /// Performs an implicit conversion from <see cref="BasicAuthCredentials" /> to <see cref="AuthenticationHeaderValue" />.
         /// </summary>
         /// <param name="credentials">The credentials.</param>
-        /// <returns>The result of the conversion.</returns>
+        /// <returns>An <see cref="AuthenticationHeaderValue"/> containing the specified <paramref name="credentials"/>.</returns>
         [NotNull]
         public static implicit operator AuthenticationHeaderValue([NotNull] BasicAuthCredentials credentials)
         {

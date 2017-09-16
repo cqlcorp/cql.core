@@ -11,9 +11,8 @@ namespace Cql.Core.SqlServer
         public static SqlCommand AsSqlCommand(this IDbCommand command)
         {
 #if PROFILER
-            var profiledDbCommand = command as ProfiledDbCommand;
 
-            if (profiledDbCommand != null)
+            if (command is ProfiledDbCommand profiledDbCommand)
             {
                 command = profiledDbCommand.InternalCommand;
             }
@@ -25,9 +24,8 @@ namespace Cql.Core.SqlServer
         public static SqlConnection AsSqlConnection(this IDbConnection connection)
         {
 #if PROFILER
-            var profiledConnection = connection as ProfiledDbConnection;
 
-            if (profiledConnection != null)
+            if (connection is ProfiledDbConnection profiledConnection)
             {
                 connection = profiledConnection.InnerConnection;
             }

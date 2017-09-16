@@ -15,7 +15,7 @@
 namespace Cql.Core.Web
 {
     /// <summary>
-    /// Enum OperationResultType
+    /// Possible result scenarios for an <seealso cref="IOperationResult"/>.
     /// </summary>
     public enum OperationResultType
     {
