@@ -1,19 +1,61 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.SqlServer
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="OutputParam.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 namespace Cql.Core.SqlServer
 {
     using System;
     using System.Data;
     using System.Data.SqlClient;
+    using System.Diagnostics.Contracts;
 
+    using JetBrains.Annotations;
+
+    /// <summary>
+    /// Class OutputParam.
+    /// </summary>
     public static class OutputParam
     {
-        public static IDbDataParameter Create<T>(string name, SqlDbType type, T? value, int? size = null)
+        /// <summary>
+        /// Creates the specified name.
+        /// </summary>
+        /// <typeparam name="T">The value type.</typeparam>
+        /// <param name="name">The name.</param>
+        /// <param name="type">The data type.</param>
+        /// <param name="value">The value.</param>
+        /// <param name="size">The size.</param>
+        /// <returns><see cref="IDbDataParameter"/></returns>
+        [NotNull]
+        public static IDbDataParameter Create<T>([NotNull] string name, SqlDbType type, T? value, int? size = null)
             where T : struct
         {
+            Contract.Requires(!string.IsNullOrEmpty(name));
+
             return Create(name, type, size, value.HasValue ? (object)value.Value : DBNull.Value);
         }
 
-        public static IDbDataParameter Create(string name, SqlDbType type, int? size = null, object value = null)
+        /// <summary>
+        /// Creates the specified name.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="type">The data type.</param>
+        /// <param name="size">The size.</param>
+        /// <param name="value">The value.</param>
+        /// <returns><see cref="IDbDataParameter"/></returns>
+        [NotNull]
+        public static IDbDataParameter Create([NotNull] string name, SqlDbType type, int? size = null, [CanBeNull] object value = null)
         {
+            Contract.Requires(!string.IsNullOrEmpty(name));
+
             var direction = ParameterDirection.Output;
 
             if (value != null)
@@ -24,6 +66,12 @@ namespace Cql.Core.SqlServer
             return new SqlParameter(name, type, size.GetValueOrDefault(GetDefaultSizeForType(type))) { Direction = direction, Value = value };
         }
 
+        /// <summary>
+        /// Gets the default size parameter for the specified <paramref name="type"/>.
+        /// </summary>
+        /// <param name="type">The data type.</param>
+        /// <returns><see cref="System.Int32"/></returns>
+        /// <exception cref="ArgumentOutOfRangeException">The <paramref name="type"/> option is not supported.</exception>
         internal static int GetDefaultSizeForType(SqlDbType type)
         {
             switch (type)

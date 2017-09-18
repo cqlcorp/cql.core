@@ -4,7 +4,7 @@
     <AssemblyName>Cql.Core.TransactionScopes</AssemblyName>
     <AssemblyTitle>Cql.Core.TransactionScopes</AssemblyTitle>
     <VersionPrefix>2.0.0</VersionPrefix>
-    <Description>An implementation for System.Transactions.</Description>
+    <Description>An implementation for System.Transactions that supports async methods.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -15,7 +15,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
-    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   
   <ItemGroup>

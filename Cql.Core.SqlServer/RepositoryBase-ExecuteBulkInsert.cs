@@ -1,3 +1,17 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.SqlServer
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="RepositoryBase-ExecuteBulkInsert.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 namespace Cql.Core.SqlServer
 {
     using System;
@@ -8,15 +22,44 @@ namespace Cql.Core.SqlServer
 
     using FastMember;
 
+    using JetBrains.Annotations;
+
+    /// <summary>
+    /// Class RepositoryBase.
+    /// </summary>
+    /// <seealso cref="Cql.Core.SqlServer.IDbConnectionCreator" />
     public abstract partial class RepositoryBase
     {
-        protected Task ExecuteBulkInsertAsync<T>(IEnumerable<T> values)
+        /// <summary>
+        /// Executes a bulkcopy insert using the default conventions.
+        /// </summary>
+        /// <typeparam name="T">The type of record to insert</typeparam>
+        /// <param name="values">The values.</param>
+        /// <returns>An awaitable task.</returns>
+        [NotNull]
+        protected Task ExecuteBulkInsertAsync<T>([NotNull] IEnumerable<T> values)
         {
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+
             return this.ExecuteBulkInsertAsync(new BulkcopyOperation<T> { Records = values });
         }
 
-        protected async Task ExecuteBulkInsertAsync<T>(BulkcopyOperation<T> bulkcopyOperation)
+        /// <summary>
+        /// Executes a SQL bulkcopy operation using the specified <paramref name="bulkcopyOperation" /> options.
+        /// </summary>
+        /// <typeparam name="T">The type of record to insert.</typeparam>
+        /// <param name="bulkcopyOperation">The bulkcopy operation options.</param>
+        /// <returns>An awaitable task.</returns>
+        protected async Task ExecuteBulkInsertAsync<T>([NotNull] BulkcopyOperation<T> bulkcopyOperation)
         {
+            if (bulkcopyOperation == null)
+            {
+                throw new ArgumentNullException(nameof(bulkcopyOperation));
+            }
+
             using (var sqlBulkCopy = new SqlBulkCopy(this.ConnectionString, bulkcopyOperation.SqlBulkCopyOptions.GetValueOrDefault(SqlBulkCopyOptions.Default)))
             {
                 sqlBulkCopy.DestinationTableName = bulkcopyOperation.DestinationTableName;
