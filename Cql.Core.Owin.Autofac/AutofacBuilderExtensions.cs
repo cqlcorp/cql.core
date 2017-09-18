@@ -1,3 +1,17 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.Owin.Autofac
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="AutofacBuilderExtensions.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 namespace Cql.Core.Owin.Autofac
 {
     using System.Reflection;
@@ -7,12 +21,26 @@ namespace Cql.Core.Owin.Autofac
 
     using global::Owin;
 
+    using JetBrains.Annotations;
+
     using Microsoft.Owin;
     using Microsoft.Practices.ServiceLocation;
 
+    /// <summary>
+    /// Class AutofacBuilderExtensions.
+    /// </summary>
     public static class AutofacBuilderExtensions
     {
-        public static IContainer BuildContainer(this ContainerBuilder builder, IAppBuilder app)
+        /// <summary>
+        /// Builds the container.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="app">The application.</param>
+        /// <returns>
+        ///     <see cref="IContainer" />
+        /// </returns>
+        [NotNull]
+        public static IContainer BuildContainer([NotNull] this ContainerBuilder builder, [NotNull] IAppBuilder app)
         {
             var container = builder.Build();
 
@@ -24,18 +52,26 @@ namespace Cql.Core.Owin.Autofac
             return container;
         }
 
-        public static void RegisterControllers(this ContainerBuilder builder, Assembly webAssembly)
+        /// <summary>
+        /// Registers the controllers.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="webAssembly">The web assembly.</param>
+        public static void RegisterControllers([NotNull] this ContainerBuilder builder, [NotNull] Assembly webAssembly)
         {
             builder.RegisterAssemblyTypes(webAssembly).Where(x => x.Name.EndsWith("Controller")).AsSelf();
         }
 
-        public static void RegisterOwinContextAccessor(this ContainerBuilder builder)
+        /// <summary>
+        /// Registers the owin context accessor.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        public static void RegisterOwinContextAccessor([NotNull] this ContainerBuilder builder)
         {
             builder.RegisterType<OwinContextAccessor>().OnActivating(
                 e =>
                     {
-                        IOwinContext context;
-                        if (e.Context.TryResolve(out context))
+                        if (e.Context.TryResolve(out IOwinContext context))
                         {
                             e.Instance.OwinContext = context;
                         }

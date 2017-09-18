@@ -13,6 +13,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
+    <ProjectReference Include="..\Cql.Core.Owin\Cql.Core.Owin.csproj" />
     <ProjectReference Include="..\Cql.Core.SqlServer\Cql.Core.SqlServer.csproj" />
   </ItemGroup>
 

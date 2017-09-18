@@ -47,6 +47,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.TransactionScopes"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.AspNetCore", "Cql.Core.AspNetCore\Cql.Core.AspNetCore.csproj", "{D98D48E8-4457-4D3F-BEAA-C35920E214BF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cql.Core.PetaPoco", "Cql.Core.PetaPoco\Cql.Core.PetaPoco.csproj", "{F369F55A-8D35-4DC0-8B88-C464301FA340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -285,6 +287,18 @@ Global
 		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x64.Build.0 = Release|Any CPU
 		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x86.ActiveCfg = Release|Any CPU
 		{D98D48E8-4457-4D3F-BEAA-C35920E214BF}.Release|x86.Build.0 = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|x64.Build.0 = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Debug|x86.Build.0 = Debug|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|x64.ActiveCfg = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|x64.Build.0 = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|x86.ActiveCfg = Release|Any CPU
+		{F369F55A-8D35-4DC0-8B88-C464301FA340}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

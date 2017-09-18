@@ -1,15 +1,37 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.Owin
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-18-2017
+// ***********************************************************************
+// <copyright file="HeaderExtensions.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+
 namespace Cql.Core.Owin
 {
     using System.Linq;
 
+    using JetBrains.Annotations;
+
     using Microsoft.Owin;
 
+    /// <summary>
+    /// Class HeaderExtensions.
+    /// </summary>
     public static class HeaderExtensions
     {
         /// <summary>
         /// Gets the IP address of client forwarded by a proxy or load-balancer.
         /// </summary>
-        public static string ForwardedFor(this IHeaderDictionary headers)
+        /// <param name="headers">The headers.</param>
+        /// <returns><see cref="System.String"/></returns>
+        [CanBeNull]
+        public static string ForwardedFor([NotNull] this IHeaderDictionary headers)
         {
             return headers.GetSingleHeaderValue("x-forwarded-for");
         }
@@ -17,7 +39,10 @@ namespace Cql.Core.Owin
         /// <summary>
         /// Gets original host name when forwarded by a proxy or load-balancer.
         /// </summary>
-        public static string ForwardedOrigin(this IHeaderDictionary headers)
+        /// <param name="headers">The headers.</param>
+        /// <returns><see cref="System.String"/></returns>
+        [CanBeNull]
+        public static string ForwardedOrigin([NotNull] this IHeaderDictionary headers)
         {
             return headers.GetSingleHeaderValue("origin") ?? headers.GetSingleHeaderValue("x-forwarded-host");
         }
@@ -25,27 +50,36 @@ namespace Cql.Core.Owin
         /// <summary>
         /// Gets original request port (HTTP/HTTPS) when forwarded by a proxy or load-balancer.
         /// </summary>
-        public static int? ForwardedPort(this IHeaderDictionary headers)
+        /// <param name="headers">The headers.</param>
+        /// <returns>The port number</returns>
+        public static int? ForwardedPort([NotNull] this IHeaderDictionary headers)
         {
             var portValue = headers.GetSingleHeaderValue("x-forwarded-port");
 
-            int port;
-            return int.TryParse(portValue, out port) ? (int?)port : null;
+            return int.TryParse(portValue, out var port) ? (int?)port : null;
         }
 
         /// <summary>
         /// Gets original request Protocol (HTTP/HTTPS) when forwarded by a proxy or load-balancer.
         /// </summary>
-        public static string ForwardedProtocol(this IHeaderDictionary headers)
+        /// <param name="headers">The headers.</param>
+        /// <returns><see cref="System.String"/></returns>
+        [CanBeNull]
+        public static string ForwardedProtocol([NotNull] this IHeaderDictionary headers)
         {
             return headers.GetSingleHeaderValue("x-forwarded-proto");
         }
 
-        public static string GetSingleHeaderValue(this IHeaderDictionary headers, string key)
+        /// <summary>
+        /// Gets the single header value.
+        /// </summary>
+        /// <param name="headers">The headers.</param>
+        /// <param name="key">The key.</param>
+        /// <returns>The header value or null.</returns>
+        [CanBeNull]
+        public static string GetSingleHeaderValue([NotNull] this IHeaderDictionary headers, [NotNull] string key)
         {
-            string[] values;
-
-            headers.TryGetValue(key, out values);
+            headers.TryGetValue(key, out var values);
 
             return values?.FirstOrDefault();
         }

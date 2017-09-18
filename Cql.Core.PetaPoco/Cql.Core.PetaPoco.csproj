@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>A common library for PetaPoco.</Description>
+    <Copyright>2017 CQL Incorporated</Copyright>
+    <AssemblyTitle>Cql.Core.PetaPoco</AssemblyTitle>
+    <VersionPrefix>2.0.0</VersionPrefix>
+    <Authors>Jeremy Bell</Authors>
+    <TargetFramework>net452</TargetFramework>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <AssemblyName>Cql.Core.PetaPoco</AssemblyName>
+    <PackageId>Cql.Core.PetaPoco</PackageId>
+    <PackageReleaseNotes>https://cqlcorp.atlassian.net/wiki/display/CQLFX</PackageReleaseNotes>
+    <PackageProjectUrl>https://stash.cqlcorp.net/projects/CQLFX</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://stash.cqlcorp.net/projects/CQLFX/repos/cql.core/browse/src/Cql.Core.PetaPoco</RepositoryUrl>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Common\Cql.Core.Common.csproj" />
+    <ProjectReference Include="..\Cql.Core.SqlServer\Cql.Core.SqlServer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
+    <PackageReference Include="AsyncPoco" Version="1.2.0" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+
+</Project>
