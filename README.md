@@ -10,7 +10,7 @@ Get the latest versions from Nuget - https://www.nuget.org/packages?q=cql.core
 
 1. **Cql.Core.Common** - A common library for CQL .Net applications.
 1. **Cql.Core.Web** - Common web features for Owin and AspNetCore web applications.
-1. **Cql.Core.NativeMethods.Logon** - Cql.Core.NativeMethods.Logon.
+1. **Cql.Core.NativeMethods.Logon** - An implementation of the native Windows LogonUser method.
 1. **Cql.Core.Messaging** - Common service implementation for Smtp, Email and SMS messaging.
 1. **Cql.Core.ServiceLocation** - A lightweight wrapper for the CommonServiceLocator.
 1. **Cql.Core.SqlServer** - A common library SQL server.
@@ -23,7 +23,7 @@ Get the latest versions from Nuget - https://www.nuget.org/packages?q=cql.core
 ## Full Framework Packages
 
 1. **Cql.Core.Owin** - Common Owin-based web features.
-1. **Cql.Core.Owin.Autofac** - 
+1. **Cql.Core.Owin.Autofac** - Common Autofac code.
 1. **Cql.Core.Owin.Identity** - Common Owin-based implementation of Asp.Net Identity providers.
 1. **Cql.Core.Owin.IdentityData** - Common Owin-based implementation of Asp.Net Identity data providers.
 1. **Cql.Core.Owin.IdentityTools** - Common Owin-based Asp.Net Identity utility classes.
