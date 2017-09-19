@@ -1,3 +1,5 @@
-# cql.core
+# CQL Core Framework
 
-Web Services leveraging OWIN
+Common .Net Packages used in speeding up and simplifying DotNet development at CQL Corp.
+
+# Packages
