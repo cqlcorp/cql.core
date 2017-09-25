@@ -1,6 +1,20 @@
+// ***********************************************************************
+// Assembly         : Cql.Core.Owin.Identity
+// Author           : jeremy.bell
+// Created          : 09-14-2017
+//
+// Last Modified By : jeremy.bell
+// Last Modified On : 09-14-2017
+// ***********************************************************************
+// <copyright file="RefreshTokenProvider.cs" company="CQL;Jeremy Bell">
+//     2017 Cql Incorporated
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
 namespace Cql.Core.Owin.Identity.Providers
 {
     using System;
+    using System.Diagnostics.Contracts;
     using System.Threading.Tasks;
 
     using Cql.Core.Owin.Identity.Repositories;
@@ -8,11 +22,22 @@ namespace Cql.Core.Owin.Identity.Providers
     using Cql.Core.Owin.IdentityTools;
     using Cql.Core.ServiceLocation;
 
+    using JetBrains.Annotations;
+
     using Microsoft.Owin.Security;
     using Microsoft.Owin.Security.Infrastructure;
 
+    /// <summary>
+    /// Class RefreshTokenProvider.
+    /// </summary>
+    /// <seealso cref="Microsoft.Owin.Security.Infrastructure.AuthenticationTokenProvider" />
     public class RefreshTokenProvider : AuthenticationTokenProvider
     {
+        /// <summary>
+        /// Creates a new refesh token.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns><see cref="Task"/></returns>
         public override async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
             var ticket = context.Ticket;
@@ -42,6 +67,11 @@ namespace Cql.Core.Owin.Identity.Providers
             }
         }
 
+        /// <summary>
+        /// Receives the Refresh Token from the "refresh_token" grant.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <returns><see cref="Task"/></returns>
         public override async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
         {
             var owinContext = context.OwinContext;
@@ -64,8 +94,20 @@ namespace Cql.Core.Owin.Identity.Providers
             }
         }
 
-        private static RefreshToken CreateRefreshToken(AuthenticationTicket ticket, string refreshTokenId, string clientId, double expiresInMinutes)
+        /// <summary>
+        /// Creates the refresh token.
+        /// </summary>
+        /// <param name="ticket">The ticket.</param>
+        /// <param name="refreshTokenId">The refresh token identifier.</param>
+        /// <param name="clientId">The client identifier.</param>
+        /// <param name="expiresInMinutes">The expires in minutes.</param>
+        /// <returns><see cref="RefreshToken"/></returns>
+        [NotNull]
+        private static RefreshToken CreateRefreshToken([NotNull] AuthenticationTicket ticket, [NotNull] string refreshTokenId, [NotNull] string clientId, double expiresInMinutes)
         {
+            Contract.Requires(!string.IsNullOrEmpty(refreshTokenId));
+            Contract.Requires(!string.IsNullOrEmpty(clientId));
+
             var token = new RefreshToken
                             {
                                 Id = IdentityUtil.ComputeHash(refreshTokenId),
@@ -83,6 +125,11 @@ namespace Cql.Core.Owin.Identity.Providers
             return token;
         }
 
+        /// <summary>
+        /// Gets the identity store.
+        /// </summary>
+        /// <returns><see cref="IIdentityStore"/></returns>
+        [NotNull]
         private static IIdentityStore GetIdentityStore()
         {
             return ServiceResolver.Resolve<IIdentityStore>();
