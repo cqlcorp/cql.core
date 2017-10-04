@@ -9,6 +9,8 @@
   
   <PropertyGroup>
     <TargetFrameworks>net451;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <Version>2.1.2</Version>
+    <PackageReleaseNotes>https://github.com/cqlcorp/cql.core/wiki/Release-Notes</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
