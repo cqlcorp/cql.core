@@ -126,7 +126,7 @@ namespace Cql.Core.SqlServer
 
             if (string.IsNullOrEmpty(connectionString))
             {
-                throw new ArgumentException("message", nameof(connectionString));
+                throw new ArgumentException("The connection string cannot be null or empty", nameof(connectionString));
             }
 
 #if PROFILER
