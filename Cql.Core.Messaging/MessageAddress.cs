@@ -1,7 +1,8 @@
 namespace Cql.Core.Messaging
 {
+#if NET451 || CORE20
     using System.Net.Mail;
-
+#endif
     public class MessageAddress : IMessageAddress
     {
         public string Address { get; set; }

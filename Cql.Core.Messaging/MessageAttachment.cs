@@ -2,9 +2,10 @@ namespace Cql.Core.Messaging
 {
     using System;
     using System.IO;
+#if NET451 || CORE20
     using System.Net.Mail;
     using System.Net.Mime;
-
+#endif
     public class MessageAttachment : IDisposable
     {
         private const string DefaultContentType = "application/octet-stream";

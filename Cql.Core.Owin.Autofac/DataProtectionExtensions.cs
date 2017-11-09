@@ -15,13 +15,13 @@
 namespace Cql.Core.Owin.Autofac
 {
     using global::Autofac;
-
-    using global::Owin.Security.AesDataProtectorProvider;
-
+    
     using JetBrains.Annotations;
 
     using Microsoft.Owin.Security.DataProtection;
 
+    using global::Owin.Security.AesDataProtectorProvider;
+    
     using AesDataProtector = global::Owin.Security.AesDataProtectorProvider.AppBuilderExtensions;
 
     /// <summary>

@@ -18,9 +18,9 @@ namespace Cql.Core.Owin.Autofac
     using System.Data.SqlClient;
     using System.Reflection;
 
-    using Cql.Core.SqlServer;
-
     using global::Autofac;
+
+    using Cql.Core.SqlServer;
 
     using JetBrains.Annotations;
 

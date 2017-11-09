@@ -9,6 +9,10 @@
   
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
+    <PackageIconUrl>https://raw.githubusercontent.com/cqlcorp/cql.core/master/cql-icon-64x64.png</PackageIconUrl>
+    <AssemblyVersion>2.0.1.0</AssemblyVersion>
+    <FileVersion>2.0.1.0</FileVersion>
+    <Version>2.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

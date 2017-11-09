@@ -9,6 +9,8 @@
 
   <PropertyGroup>
     <TargetFrameworks>net451;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <PackageIconUrl>https://raw.githubusercontent.com/cqlcorp/cql.core/master/cql-icon-64x64.png</PackageIconUrl>
+    <Version>2.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net451' ">

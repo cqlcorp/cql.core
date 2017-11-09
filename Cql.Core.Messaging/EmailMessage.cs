@@ -16,7 +16,9 @@ namespace Cql.Core.Messaging
 {
     using System;
     using System.Collections.Generic;
+#if NET451 || CORE20
     using System.Net.Mail;
+#endif
     using System.Threading;
 
     /// <summary>
