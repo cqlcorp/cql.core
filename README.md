@@ -31,3 +31,8 @@ Get the latest versions from Nuget - https://www.nuget.org/packages?q=cql.core
 1. **Cql.Core.Owin.WebPack** - Middleware and utilities for running the webpack dev server.
 1. **Cql.Core.Caching** - An implementation of System.Runtime.Caching.MemoryCache.
 1. **Cql.Core.TransactionScopes** - An implementation for System.Transactions that supports async methods.
+
+## Release Notes:
+
+### 2017-11-9: Cql.Core.SqlReportingServices v2.1.0.0
+Added CancellationToken support for Execute methods.

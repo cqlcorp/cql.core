@@ -37,6 +37,6 @@
 	</PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.3.0" PrivateAssets="All" />
+    <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.4.0" PrivateAssets="All" />
   </ItemGroup>
 </Project>
