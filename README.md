@@ -34,5 +34,4 @@ Get the latest versions from Nuget - https://www.nuget.org/packages?q=cql.core
 
 ## Release Notes:
 
-### 2017-11-9: Cql.Core.SqlReportingServices v2.1.0.0
-Added CancellationToken support for Execute methods.
+https://github.com/cqlcorp/cql.core/wiki/Release-Notes
