@@ -2,6 +2,7 @@
 
 namespace Cql.Core.ReportingServices.ReportExecution
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
@@ -18,6 +19,11 @@ namespace Cql.Core.ReportingServices.ReportExecution
             {
                 return this.FindStringAsync(startPage, endPage, findValue);
             }
+        }
+
+        public Task<ExecutionInfo> LoadReportAsync(string Report)
+        {
+            return this.LoadReportAsync(Report, null);
         }
 
         public Task<ExecutionInfo> GetExecutionInfoAsync(string executionId)
@@ -50,6 +56,11 @@ namespace Cql.Core.ReportingServices.ReportExecution
             {
                 return this.RenderStreamAsync(request);
             }
+        }
+
+        public Task<ExecutionInfo> SetReportParametersAsync(string executionId, IEnumerable<KeyValuePair<string, object>> parameterValues)
+        {
+            return this.SetReportParametersAsync(executionId, parameterValues.Select(x => new ParameterValue { Name = x.Key, Value = Convert.ToString(x.Value) }), null);
         }
 
         public Task<ExecutionInfo> SetReportParametersAsync(string executionId, IEnumerable<ParameterValue> parameterValues, string parameterLanguage = null)
