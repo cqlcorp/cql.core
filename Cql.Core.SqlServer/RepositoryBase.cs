@@ -4,18 +4,13 @@
 // Created          : 09-14-2017
 //
 // Last Modified By : jeremy.bell
-// Last Modified On : 09-14-2017
+// Last Modified On : 12-20-2017
 // ***********************************************************************
 // <copyright file="RepositoryBase.cs" company="CQL;Jeremy Bell">
 //     2017 Cql Incorporated
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
-
-#if PROFILER
-using StackExchange.Profiling.Data;
-using MiniProfiler.Integrations;
-#endif
 
 namespace Cql.Core.SqlServer
 {
@@ -26,6 +21,9 @@ namespace Cql.Core.SqlServer
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
+
+    using StackExchange.Profiling;
+    using StackExchange.Profiling.Data;
 
     /// <summary>
     /// Class RepositoryBase.
@@ -39,12 +37,8 @@ namespace Cql.Core.SqlServer
         [NotNull]
         private readonly DatabaseConnection connection;
 
-#if PROFILER
-        private readonly CustomDbProfiler _profiler;
-#endif
-
         /// <summary>
-        /// Initializes a new instance of the <see cref="RepositoryBase"/> class.
+        /// Initializes a new instance of the <see cref="RepositoryBase" /> class.
         /// </summary>
         /// <param name="connection">The connection.</param>
         protected RepositoryBase([NotNull] DatabaseConnection connection)
@@ -52,9 +46,6 @@ namespace Cql.Core.SqlServer
             Contract.Requires(connection != null);
 
             this.connection = connection ?? throw new ArgumentNullException(nameof(connection));
-#if PROFILER
-            this._profiler = new CustomDbProfiler();
-#endif
         }
 
         /// <summary>
@@ -76,12 +67,14 @@ namespace Cql.Core.SqlServer
         /// </summary>
         /// <value>The connection string.</value>
         [NotNull]
-        protected string ConnectionString => this.connection.ConnectionString;
+        protected string ConnectionString => this.connection.ConnectionString ?? throw new InvalidOperationException("The connection string cannot be null or empty.");
 
         /// <summary>
         /// Creates the database connection.
         /// </summary>
-        /// <returns><see cref="DbConnection"/></returns>
+        /// <returns>
+        ///     <see cref="DbConnection" />
+        /// </returns>
         DbConnection IDbConnectionCreator.CreateDbConnection()
         {
             return this.CreateConnection();
@@ -107,7 +100,9 @@ namespace Cql.Core.SqlServer
         /// <summary>
         /// Creates the connection.
         /// </summary>
-        /// <returns><see cref="DbConnection"/></returns>
+        /// <returns>
+        ///     <see cref="DbConnection" />
+        /// </returns>
         [NotNull]
         protected virtual DbConnection CreateConnection()
         {
@@ -118,7 +113,9 @@ namespace Cql.Core.SqlServer
         /// Creates the connection.
         /// </summary>
         /// <param name="connectionString">The connection string.</param>
-        /// <returns><see cref="DbConnection"/></returns>
+        /// <returns>
+        ///     <see cref="DbConnection" />
+        /// </returns>
         [NotNull]
         protected virtual DbConnection CreateConnection([NotNull] string connectionString)
         {
@@ -129,11 +126,7 @@ namespace Cql.Core.SqlServer
                 throw new ArgumentException("The connection string cannot be null or empty", nameof(connectionString));
             }
 
-#if PROFILER
-            return new ProfiledDbConnection(new SqlConnection(connectionString), this._profiler);
-#else
-            return new SqlConnection(connectionString);
-#endif
+            return new ProfiledDbConnection(new SqlConnection(connectionString), MiniProfiler.Current);
         }
 
         /// <summary>
@@ -153,7 +146,17 @@ namespace Cql.Core.SqlServer
 
             using (var db = this.CreateConnection())
             {
-                return executeFunc(db);
+                try
+                {
+                    var result = executeFunc(db);
+                    this.RaiseCommandsExecuted();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    this.RaiseExecuteError(ex);
+                    throw;
+                }
             }
         }
 
@@ -174,7 +177,17 @@ namespace Cql.Core.SqlServer
 
             using (var db = this.CreateConnection())
             {
-                return await executeFunc(db).ConfigureAwait(false);
+                try
+                {
+                    var result = await executeFunc(db).ConfigureAwait(false);
+                    this.RaiseCommandsExecuted();
+                    return result;
+                }
+                catch (Exception ex)
+                {
+                    this.RaiseExecuteError(ex);
+                    throw;
+                }
             }
         }
 
@@ -183,11 +196,7 @@ namespace Cql.Core.SqlServer
         /// </summary>
         private void RaiseCommandsExecuted()
         {
-#if PROFILER
-            this.OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs(this._profiler));
-#else
-            this.OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs());
-#endif
+            this.OnCommandsExecuted?.Invoke(this, new CommandsExecutedEventArgs(MiniProfiler.Current));
         }
 
         /// <summary>
@@ -196,7 +205,7 @@ namespace Cql.Core.SqlServer
         /// <param name="ex">The ex.</param>
         private void RaiseExecuteError([NotNull] Exception ex)
         {
-            this.OnExecuteError?.Invoke(this, new ExecuteErrorEventArgs(ex));
+            this.OnExecuteError?.Invoke(this, new ExecuteErrorEventArgs(MiniProfiler.Current, ex));
         }
     }
 }

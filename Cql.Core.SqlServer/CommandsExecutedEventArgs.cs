@@ -18,9 +18,8 @@ namespace Cql.Core.SqlServer
     using System.Diagnostics.Contracts;
 
     using JetBrains.Annotations;
-#if PROFILER
     using StackExchange.Profiling.Data;
-#endif
+
     /// <summary>
     /// Class CommandsExecutedEventArgs.
     /// </summary>
@@ -30,11 +29,9 @@ namespace Cql.Core.SqlServer
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandsExecutedEventArgs"/> class.
         /// </summary>
-        public CommandsExecutedEventArgs()
-        {
-        }
-
-#if PROFILER
+        /// <param name="profiler">
+        /// The profiler.
+        /// </param>
         public CommandsExecutedEventArgs([NotNull] IDbProfiler profiler)
         {
             Contract.Requires(profiler != null);
@@ -42,8 +39,10 @@ namespace Cql.Core.SqlServer
             this.Profiler = profiler;
         }
 
+        /// <summary>
+        /// Gets or sets the profiler.
+        /// </summary>
         [NotNull]
         public IDbProfiler Profiler { get; set; }
-#endif
     }
 }

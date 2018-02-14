@@ -19,6 +19,8 @@ namespace Cql.Core.SqlServer
 
     using JetBrains.Annotations;
 
+    using StackExchange.Profiling.Data;
+
     /// <summary>
     /// Event arguments for a <see cref="RepositoryBase" /> error event.
     /// </summary>
@@ -26,14 +28,23 @@ namespace Cql.Core.SqlServer
     public class ExecuteErrorEventArgs : EventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExecuteErrorEventArgs" /> class.
+        /// Initializes a new instance of the <see cref="ExecuteErrorEventArgs"/> class.
         /// </summary>
-        /// <param name="exception">The exception.</param>
-        /// <exception cref="ArgumentNullException">The <paramref name="exception" /> cannot be null.</exception>
-        public ExecuteErrorEventArgs([NotNull] Exception exception)
+        /// <param name="profiler">
+        /// The database profiler.
+        /// </param>
+        /// <param name="exception">
+        /// The exception.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        /// The <paramref name="exception"/> cannot be null.
+        /// </exception>
+        public ExecuteErrorEventArgs([NotNull] IDbProfiler profiler, [NotNull] Exception exception)
         {
+            Contract.Requires(profiler != null);
             Contract.Requires(exception != null);
 
+            this.Profiler = profiler;
             this.Exception = exception ?? throw new ArgumentNullException(nameof(exception));
         }
 
@@ -43,5 +54,11 @@ namespace Cql.Core.SqlServer
         /// <value>The exception.</value>
         [NotNull]
         public Exception Exception { get; set; }
+
+        /// <summary>
+        /// Gets or sets the profiler.
+        /// </summary>
+        [NotNull]
+        public IDbProfiler Profiler { get; set; }
     }
 }

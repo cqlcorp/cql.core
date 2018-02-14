@@ -18,6 +18,7 @@ namespace Cql.Core.Web
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using JetBrains.Annotations;
@@ -174,6 +175,29 @@ namespace Cql.Core.Web
 
         /// <summary>
         /// Returns an <see cref="OperationResult" /> indicating validation errors with the specified
+        /// <paramref name="message" />.
+        /// </summary>
+        /// <typeparam name="T">The result type</typeparam>
+        /// <param name="message">The validation message.</param>
+        /// <returns>An OperationResult&lt;T&gt;.</returns>
+        [NotNull]
+        public static OperationResult<T> Invalid<T>([CanBeNull] string message)
+        {
+            if (string.IsNullOrEmpty(message))
+            {
+                message = DefaultValidationMessage;
+            }
+
+            return new OperationResult<T>
+                       {
+                           ValidationResults = new List<ValidationResult> { new ValidationResult(message) },
+                           Result = OperationResultType.Invalid,
+                           Message = message
+                       };
+        }
+
+        /// <summary>
+        /// Returns an <see cref="OperationResult" /> indicating validation errors with the specified
         /// <paramref name="validationResults" />.
         /// </summary>
         /// <typeparam name="T">The result type</typeparam>
@@ -185,7 +209,8 @@ namespace Cql.Core.Web
             return new OperationResult<T>
                        {
                            ValidationResults = validationResults ?? new List<ValidationResult> { new ValidationResult(DefaultValidationMessage) },
-                           Result = OperationResultType.Invalid
+                           Result = OperationResultType.Invalid,
+                           Message = validationResults?.Select(x => x.ErrorMessage).FirstOrDefault() ?? DefaultValidationMessage
                        };
         }
 
@@ -201,7 +226,8 @@ namespace Cql.Core.Web
             return new OperationResult
                        {
                            ValidationResults = validationResults ?? new List<ValidationResult> { new ValidationResult(DefaultValidationMessage) },
-                           Result = OperationResultType.Invalid
+                           Result = OperationResultType.Invalid,
+                           Message = validationResults?.Select(x => x.ErrorMessage).FirstOrDefault() ?? DefaultValidationMessage
                        };
         }
 

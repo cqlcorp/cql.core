@@ -9,10 +9,10 @@
   
   <PropertyGroup>
     <TargetFrameworks>net452;netstandard1.6;netstandard2.0</TargetFrameworks>
-    <PackageIconUrl>https://raw.githubusercontent.com/cqlcorp/cql.core/master/cql-icon-64x64.png</PackageIconUrl>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
-    <Version>2.0.1</Version>
+    <PackageIconUrl>https://secure.gravatar.com/avatar/7346f295179601173e2a31246657dfcc?s=64</PackageIconUrl>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
+    <Version>2.1.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,14 +20,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Dapper" Version="1.50.2" />
     <PackageReference Include="Dapper.FastCrud" Version="2.4.1" />
+    <PackageReference Include="Dapper" Version="1.50.4" />
     <PackageReference Include="FastMember" Version="1.1.0" />
+    <PackageReference Include="MiniProfiler.Shared" Version="4.0.0-alpha9-00206" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <PackageReference Include="MiniProfiler" Version="3.2.0.157" />
-    <PackageReference Include="MiniProfiler.Integrations" Version="2.2.0" />
+
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -35,10 +35,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'net452' ">
-    <DefineConstants>$(DefineConstants);PROFILER</DefineConstants>
-  </PropertyGroup>
 
   <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
     <DefineConstants>$(DefineConstants);COREFX</DefineConstants>
