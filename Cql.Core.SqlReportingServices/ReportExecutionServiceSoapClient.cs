@@ -60,7 +60,11 @@ namespace Cql.Core.ReportingServices.ReportExecution
 
         public Task<ExecutionInfo> SetReportParametersAsync(string executionId, IEnumerable<KeyValuePair<string, object>> parameterValues)
         {
-            return this.SetReportParametersAsync(executionId, parameterValues.Select(x => new ParameterValue { Name = x.Key, Value = Convert.ToString(x.Value) }), null);
+            return this.SetReportParametersAsync(executionId, parameterValues.Select(x => new ParameterValue
+            {
+                Name = x.Key,
+                Value = x.Value?.ToString()
+            }), null);
         }
 
         public Task<ExecutionInfo> SetReportParametersAsync(string executionId, IEnumerable<ParameterValue> parameterValues, string parameterLanguage = null)
