@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.AwsElasticBeanstalk</AssemblyName>
+    <AssemblyTitle>Cql.Core.AwsElasticBeanstalk</AssemblyTitle>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Description>AWS Elastic Beanstalk Utilities.</Description>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <TargetFrameworks>net452;netstandard1.6;netstandard2.0</TargetFrameworks>
+    <Version>1.01</Version>
+    <PackageReleaseNotes>https://github.com/cqlcorp/cql.core/wiki/Release-Notes</PackageReleaseNotes>
+    <PackageIconUrl>https://secure.gravatar.com/avatar/7346f295179601173e2a31246657dfcc?s=64</PackageIconUrl>
+    <AssemblyVersion>1.0.1</AssemblyVersion>
+    <FileVersion>1.0.1</FileVersion>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cql.Core.Web\Cql.Core.Web.csproj" />
+  </ItemGroup>
+
+</Project>

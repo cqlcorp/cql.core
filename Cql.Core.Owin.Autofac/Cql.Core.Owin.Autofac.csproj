@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Update="NuGet.Build.Tasks.Pack" Version="4.3.0" />
+    <PackageReference Update="NuGet.Build.Tasks.Pack" Version="4.7.0" />
   </ItemGroup>
 
 </Project>

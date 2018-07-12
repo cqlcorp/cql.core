@@ -21,10 +21,7 @@ namespace Cql.Core.ReportingServices.ReportExecution
             }
         }
 
-        public Task<ExecutionInfo> LoadReportAsync(string Report)
-        {
-            return this.LoadReportAsync(Report, null);
-        }
+        public Task<ExecutionInfo> LoadReportAsync(string report) => this.LoadReportAsync(report, null);
 
         public Task<ExecutionInfo> GetExecutionInfoAsync(string executionId)
         {
