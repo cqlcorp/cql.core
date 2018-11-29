@@ -73,5 +73,22 @@ namespace Cql.Core.AwsElasticBeanstalk
 
             return ReadEnvironmentConfig(content);
         }
+
+        public static Dictionary<string, string> ReadEnvironmentConfigFile(Stream stream)
+        {
+            using (var sr = new StreamReader(stream))
+            {
+                var content = sr.ReadToEnd();
+
+                var result = ReadEnvironmentConfig(content);
+
+                if (result.Result == OperationResultType.Ok)
+                {
+                    return result.Data;
+                }
+
+                return new Dictionary<string, string>();
+            }
+        }
     }
 }
