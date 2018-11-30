@@ -5,12 +5,17 @@
 
 
     <PackageIconUrl>https://raw.githubusercontent.com/cqlcorp/cql.core/master/cql-icon-64x64.png</PackageIconUrl>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Description>Background Task implemenation based on:
-https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-2.1</Description>
+https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-2.1
+
+This version adds logging and carrying forward the User context to the background thread.</Description>
+    <AssemblyVersion>1.1.0.0</AssemblyVersion>
+    <FileVersion>1.1.0.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="2.1.1" />
   </ItemGroup>
