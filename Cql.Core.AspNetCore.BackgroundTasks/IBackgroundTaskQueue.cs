@@ -6,8 +6,14 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
 {
     public interface IBackgroundTaskQueue
     {
-        void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem, int? delayInMilliseconds);
-
         Task<Func<CancellationToken, Task>> DequeueAsync(CancellationToken cancellationToken);
+        
+        void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem);
+
+        void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem);
+
+        void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem, int? delayMilliseconds);
+
+        void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem, int? delayMilliseconds);
     }
 }

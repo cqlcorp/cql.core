@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
 
 
-    <PackageIconUrl>https://raw.githubusercontent.com/cqlcorp/cql.core/master/cql-icon-64x64.png</PackageIconUrl>
+    <PackageIconUrl>https://secure.gravatar.com/avatar/7346f295179601173e2a31246657dfcc?s=64</PackageIconUrl>
     <Version>1.1.0</Version>
     <Description>Background Task implemenation based on:
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-2.1

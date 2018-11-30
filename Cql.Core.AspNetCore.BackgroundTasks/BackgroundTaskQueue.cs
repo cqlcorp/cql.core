@@ -31,6 +31,21 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
             return workItem;
         }
 
+        public void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem)
+        {
+            QueueBackgroundWorkItem(workItem, null);
+        }
+
+        public void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem)
+        {
+            QueueBackgroundWorkItem(taskName, workItem, null);
+        }
+        
+        public void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem, int? delayMilliseconds)
+        {
+            QueueBackgroundWorkItem(null, workItem, delayMilliseconds);
+        }
+
         public void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem, int? delayMilliseconds)
         {
             if (workItem == null)
@@ -60,21 +75,6 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
             _workItems.Enqueue(BackgroundTask);
 
             _signal.Release();
-        }
-
-        public void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem)
-        {
-            QueueBackgroundWorkItem(null, workItem);
-        }
-
-        public void QueueBackgroundWorkItem(string taskName, Func<CancellationToken, Task> workItem)
-        {
-            QueueBackgroundWorkItem(taskName, workItem, null);
-        }
-
-        public void QueueBackgroundWorkItem(Func<CancellationToken, Task> workItem, int? delayMilliseconds)
-        {
-            QueueBackgroundWorkItem(null, workItem, delayMilliseconds);
         }
 
         private void LogCompleted(string taskName)
