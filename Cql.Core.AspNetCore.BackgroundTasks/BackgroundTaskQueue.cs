@@ -38,10 +38,15 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
                 throw new ArgumentNullException(nameof(workItem));
             }
 
+            if (string.IsNullOrEmpty(taskName))
+            {
+                taskName = $"A task queued at {DateTimeOffset.Now:o}";
+            }
+
             LogQueued(taskName);
 
             var currentUser = _httpAccessor.HttpContext.User;
-
+            
             async Task BackgroundTask(CancellationToken cancellationToken)
             {
                 if (delayMilliseconds.HasValue)
