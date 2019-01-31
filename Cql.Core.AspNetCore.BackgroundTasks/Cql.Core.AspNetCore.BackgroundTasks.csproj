@@ -5,13 +5,13 @@
 
 
     <PackageIconUrl>https://secure.gravatar.com/avatar/7346f295179601173e2a31246657dfcc?s=64</PackageIconUrl>
-    <Version>1.1.0</Version>
+    <Version>1.1.2</Version>
     <Description>Background Task implemenation based on:
 https://docs.microsoft.com/en-us/aspnet/core/fundamentals/host/hosted-services?view=aspnetcore-2.1
 
 This version adds logging and carrying forward the User context to the background thread.</Description>
-    <AssemblyVersion>1.1.0.0</AssemblyVersion>
-    <FileVersion>1.1.0.0</FileVersion>
+    <AssemblyVersion>1.1.2.0</AssemblyVersion>
+    <FileVersion>1.1.2.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>

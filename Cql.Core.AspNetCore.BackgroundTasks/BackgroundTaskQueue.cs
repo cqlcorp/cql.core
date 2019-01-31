@@ -60,8 +60,8 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
 
             LogQueued(taskName);
 
-            var currentUser = _httpAccessor.HttpContext.User;
-            
+            IPrincipal currentUser = GetCurrentUser();
+
             async Task BackgroundTask(CancellationToken cancellationToken)
             {
                 if (delayMilliseconds.HasValue)
@@ -75,6 +75,11 @@ namespace Cql.Core.AspNetCore.BackgroundTasks
             _workItems.Enqueue(BackgroundTask);
 
             _signal.Release();
+        }
+
+        private IPrincipal GetCurrentUser()
+        {
+            return _httpAccessor.HttpContext?.User ?? Thread.CurrentPrincipal;
         }
 
         private void LogCompleted(string taskName)
@@ -124,7 +129,11 @@ $"{exception}\n" +
 
                 await Task.Run(async () =>
                     {
-                        Thread.CurrentPrincipal = user;
+                        if (user != null)
+                        {
+                            Thread.CurrentPrincipal = user;
+                        }
+
                         await task(cancellationToken);
                     },
                     cancellationToken);
