@@ -1,11 +1,11 @@
 <Project>
   <PropertyGroup>
-    <Copyright>2017 Cql Incorporated</Copyright>  
+    <Copyright>2019 CQL Incorporated</Copyright>
     <PackageId>$(AssemblyName)</PackageId>
     <PackageReleaseNotes>https://github.com/cqlcorp/cql.core</PackageReleaseNotes>
     <PackageProjectUrl>https://github.com/cqlcorp/cql.core</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/cqlcorp/cql.core/License.md</PackageLicenseUrl>
-		<Authors>CQL;Jeremy Bell</Authors>
+		<Authors>CQL;Jeremy Bell;Chad Gilbert</Authors>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -35,7 +35,7 @@
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
 		<DefineConstants>$(DefineConstants);CORE20</DefineConstants>
 	</PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="NuGet.Build.Tasks.Pack" Version="4.9.1" PrivateAssets="All" />
   </ItemGroup>
