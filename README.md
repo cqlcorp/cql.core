@@ -9,6 +9,7 @@ Get the latest versions from Nuget - https://www.nuget.org/packages?q=cql.core
 ## .Net Core and Full Framework Packages
 
 1. **Cql.Core.Common** - A common library for CQL .Net applications.
+1. **Cql.Core.Elasticsearch** - A library containing useful extensions to the Elasticsearch low level client.
 1. **Cql.Core.Web** - Common web features for Owin and AspNetCore web applications.
 1. **Cql.Core.NativeMethods.Logon** - An implementation of the native Windows LogonUser method.
 1. **Cql.Core.Messaging** - Common service implementation for Smtp, Email and SMS messaging.
