@@ -16,6 +16,7 @@ namespace Cql.Core.SqlServer
 {
     using System;
     using System.Data;
+    using System.Data.SqlClient;
     using System.Diagnostics.Contracts;
     using System.Reflection;
 
@@ -38,8 +39,9 @@ namespace Cql.Core.SqlServer
         /// <param name="value">The value.</param>
         /// <param name="type">The database parameter type</param>
         /// <param name="timeAdjustment">The time adjustment option.</param>
-        /// <exception cref="ArgumentOutOfRangeException">The <paramref name="timeAdjustment"/> option is not supported.</exception>
-        public static void AddSearchParam([NotNull] this DynamicParameters args, [NotNull] string name, DateTime? value, DbType type = DbType.DateTime, TimeAdjustment timeAdjustment = TimeAdjustment.None)
+        /// <exception cref="ArgumentOutOfRangeException">The <paramref name="timeAdjustment" /> option is not supported.</exception>
+        public static void AddSearchParam([NotNull] this DynamicParameters args, [NotNull] string name, DateTime? value, DbType type = DbType.DateTime,
+            TimeAdjustment timeAdjustment = TimeAdjustment.None)
         {
             Contract.Requires(args != null);
             Contract.Requires(!string.IsNullOrEmpty(name));
@@ -109,7 +111,7 @@ namespace Cql.Core.SqlServer
 
                 if (typeof(T).GetTypeInfo().IsEnum)
                 {
-                    paramValue = (int)paramValue;
+                    paramValue = (int) paramValue;
                 }
             }
 
@@ -125,7 +127,7 @@ namespace Cql.Core.SqlServer
         /// <param name="searchType">Type of the search.</param>
         /// <param name="size">The size.</param>
         /// <param name="type">The database parameter type</param>
-        /// <exception cref="ArgumentOutOfRangeException">The <paramref name="searchType"/> option is not supported.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">The <paramref name="searchType" /> option is not supported.</exception>
         public static void AddSearchParam(
             [NotNull] this DynamicParameters args,
             [NotNull] string name,
@@ -168,26 +170,128 @@ namespace Cql.Core.SqlServer
             args.Add(name, paramValue, type, ParameterDirection.Input, size);
         }
 
+        public static bool? GetBoolean(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetBoolean(i);
+        }
+
+        public static char? GetChar(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetChar(i);
+        }
+
+        public static DateTime? GetDateTime(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetDateTime(i);
+        }
+
+        public static DateTimeOffset? GetDateTimeOffset(this SqlDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetDateTimeOffset(i);
+        }
+
+        public static decimal? GetDecimal(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetDecimal(i);
+        }
+
+        public static double? GetDouble(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetDouble(i);
+        }
+
+        public static object GetFieldValue(this SqlDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.GetValue(i);
+        }
+
+        public static T GetFieldValue<T>(this SqlDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetFieldValue<T>(i);
+        }
+
+        public static float? GetFloat(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetFloat(i);
+        }
+
+        public static Guid? GetGuid(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetGuid(i);
+        }
+
+        public static int? GetInt16(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetInt16(i);
+        }
+
+        public static int? GetInt32(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetInt32(i);
+        }
+
+        public static long? GetInt64(this IDataReader reader, [NotNull] string columnName)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? default : reader.GetInt64(i);
+        }
+
+        [CanBeNull]
+        public static string GetString(this IDataReader reader, [NotNull] string columnName, string defaultValue = default)
+        {
+            var i = reader.GetOrdinal(columnName);
+
+            return reader.IsDBNull(i) ? defaultValue : reader.GetString(i) ?? defaultValue;
+        }
+
         /// <summary>
-        /// Gets the parameter value cast to <typeparamref name="TValue"/>.
+        /// Gets the parameter value cast to <typeparamref name="TValue" />.
         /// </summary>
         /// <typeparam name="TValue">The type of the value</typeparam>
         /// <param name="parameter">The parameter.</param>
-        /// <returns>The value cast to the specified <typeparamref name="TValue" /> or the default value of <typeparamref name="TValue"/> if the parameter value is null or <see cref="DBNull"/></returns>
+        /// <returns>
+        /// The value cast to the specified <typeparamref name="TValue" /> or the default value of
+        /// <typeparamref name="TValue" /> if the parameter value is null or <see cref="DBNull" />
+        /// </returns>
         public static TValue GetValue<TValue>([NotNull] this IDbDataParameter parameter)
         {
             Contract.Requires(parameter != null);
 
             if (parameter.Value == null || parameter.Value is DBNull)
             {
-                return default(TValue);
+                return default;
             }
 
-            return (TValue)parameter.Value;
+            return (TValue) parameter.Value;
         }
 
         /// <summary>
-        /// Truncates the specified <paramref name="value"/> if it exceeds the specified <paramref name="maxLength"/>.
+        /// Truncates the specified <paramref name="value" /> if it exceeds the specified <paramref name="maxLength" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxLength">The maximum length.</param>
@@ -201,7 +305,7 @@ namespace Cql.Core.SqlServer
         }
 
         /// <summary>
-        /// Truncates the specified <paramref name="value"/> if it exceeds the specified <paramref name="maxLength"/>.
+        /// Truncates the specified <paramref name="value" /> if it exceeds the specified <paramref name="maxLength" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="maxLength">The maximum length.</param>
@@ -220,7 +324,7 @@ namespace Cql.Core.SqlServer
         }
 
         /// <summary>
-        /// Inserts wildcard search characters (%) to the string value based on the <paramref name="searchType"/>.
+        /// Inserts wildcard search characters (%) to the string value based on the <paramref name="searchType" />.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <param name="searchType">Type of the search.</param>

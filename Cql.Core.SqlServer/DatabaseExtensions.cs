@@ -12,6 +12,10 @@
 // <summary></summary>
 // ***********************************************************************
 
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+
 namespace Cql.Core.SqlServer
 {
     using System.Data;
@@ -23,6 +27,7 @@ namespace Cql.Core.SqlServer
 #if PROFILER
     using StackExchange.Profiling.Data;
 #endif
+
     /// <summary>
     /// Class DatabaseExtensions.
     /// </summary>
@@ -50,6 +55,7 @@ namespace Cql.Core.SqlServer
         /// Returns the <paramref name="connection"/> as a <see cref="SqlConnection"/>.
         /// </summary>
         /// <param name="connection">The connection.</param>
+        /// <exception cref="InvalidCastException">Thrown if the underlying connection type is not a SqlConnection</exception>
         /// <returns><see cref="SqlConnection"/>.</returns>
         [CanBeNull]
         public static SqlConnection AsSqlConnection([NotNull] this IDbConnection connection)
@@ -62,6 +68,23 @@ namespace Cql.Core.SqlServer
             }
 #endif
             return connection as SqlConnection;
+        }
+		
+        [ItemNotNull]
+        [SuppressMessage("Security", "CA2100:Review SQL queries for security vulnerabilities", Justification = "This is a general purpose method")]
+        public static async Task<IDbCommand> GetOpenCommandAsync(this IDbConnection connection, string commandText, CommandType commandType, CancellationToken cancellationToken = default)
+        {
+            if (connection.State == ConnectionState.Closed)
+            {
+                await connection.OpenAsync(cancellationToken);
+            }
+
+            var command = connection.CreateCommand();
+
+            command.CommandText = commandText;
+            command.CommandType = commandType;
+
+            return command;
         }
 
         /// <summary>
@@ -81,8 +104,9 @@ namespace Cql.Core.SqlServer
         /// Attempts to use the OpenAsync method of the connection if supported, otherwise the synchronous Open method is invoked.
         /// </summary>
         /// <param name="connection">The connection.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>An awaitable task.</returns>
-        public static async Task OpenAsync([NotNull] this IDbConnection connection)
+        public static async Task OpenAsync([NotNull] this IDbConnection connection, CancellationToken cancellationToken = default)
         {
             Contract.Requires(connection != null);
 
@@ -90,7 +114,7 @@ namespace Cql.Core.SqlServer
 
             if (sqlConnection != null)
             {
-                await sqlConnection.OpenAsync();
+                await sqlConnection.OpenAsync(cancellationToken);
                 return;
             }
 
