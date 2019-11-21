@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Cql.Core.Elasticsearch</AssemblyName>
+    <AssemblyTitle>Cql.Core.Elasticsearch</AssemblyTitle>
+    <VersionPrefix>6.8.3</VersionPrefix>
+    <Description>Some helpful extensions to the Elasticsearch low level client. The Version number of this package matches the version number of Elasticsearch.Net</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>net461;netstandard2.0</TargetFrameworks>
+    <Version>6.8.3</Version>
+    <PackageReleaseNotes>https://github.com/cqlcorp/cql.core/wiki/Release-Notes</PackageReleaseNotes>
+    <PackageIconUrl>https://secure.gravatar.com/avatar/7346f295179601173e2a31246657dfcc?s=64</PackageIconUrl>
+    <AssemblyVersion>6.8.3.0</AssemblyVersion>
+    <FileVersion>6.8.3.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elasticsearch.Net" Version="6.8.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+</Project>
